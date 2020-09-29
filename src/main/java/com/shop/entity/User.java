@@ -15,12 +15,10 @@ public class User implements Serializable {
 
     private String email;
 
-    @Column(name = "password_hash")
-    private byte[] passwordHash;
-    private String salt;
+    private String password;
 
     @Enumerated(EnumType.STRING)
-    private Role role = Role.CUSTOMER;
+    private Role role = Role.USER;
 
     @Column(name = "create_date")
     @Temporal(TemporalType.DATE)
@@ -46,20 +44,12 @@ public class User implements Serializable {
         this.email = email;
     }
 
-    public byte[] getPasswordHash() {
-        return passwordHash;
+    public String getPassword() {
+        return password;
     }
 
-    public void setPasswordHash(byte[] passwordHash) {
-        this.passwordHash = passwordHash;
-    }
-
-    public String getSalt() {
-        return salt;
-    }
-
-    public void setSalt(String salt) {
-        this.salt = salt;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public Role getRole() {

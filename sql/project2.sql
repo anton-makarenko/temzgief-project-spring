@@ -21,7 +21,7 @@ USE `shopdb2` ;
 DROP TABLE IF EXISTS `shopdb2`.`addresses` ;
 
 CREATE TABLE IF NOT EXISTS `shopdb2`.`addresses` (
-  `id` BIGINT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `id` BIGINT(10) UNSIGNED NOT NULL,
   `country` VARCHAR(128) NOT NULL,
   `city` VARCHAR(128) NOT NULL,
   `building` VARCHAR(16) NOT NULL,
@@ -42,10 +42,9 @@ CREATE UNIQUE INDEX `country_city_building__apartment_UNIQUE` ON `shopdb2`.`addr
 DROP TABLE IF EXISTS `shopdb2`.`users` ;
 
 CREATE TABLE IF NOT EXISTS `shopdb2`.`users` (
-  `id` BIGINT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `id` BIGINT(10) UNSIGNED NOT NULL,
   `email` VARCHAR(256) NOT NULL,
-  `password_hash` BLOB NOT NULL,
-  `salt` VARCHAR(16) NOT NULL,
+  `password` VARCHAR(64) NOT NULL,
   `role` VARCHAR(16) NOT NULL,
   `create_date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `last_update` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -80,7 +79,7 @@ COLLATE = utf8_bin;
 DROP TABLE IF EXISTS `shopdb2`.`categories` ;
 
 CREATE TABLE IF NOT EXISTS `shopdb2`.`categories` (
-  `id` BIGINT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `id` BIGINT(10) UNSIGNED NOT NULL,
   `name` VARCHAR(256) NOT NULL,
   `picture` VARCHAR(128) NOT NULL,
   `parent_id` BIGINT(10) UNSIGNED NULL DEFAULT NULL,
@@ -107,7 +106,7 @@ CREATE INDEX `fk_categories_categories1_idx` ON `shopdb2`.`categories` (`parent_
 DROP TABLE IF EXISTS `shopdb2`.`orders` ;
 
 CREATE TABLE IF NOT EXISTS `shopdb2`.`orders` (
-  `id` BIGINT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `id` BIGINT(10) UNSIGNED NOT NULL,
   `user_id` BIGINT(10) UNSIGNED NOT NULL,
   `total` DOUBLE UNSIGNED NOT NULL DEFAULT '0',
   `status` VARCHAR(16) NOT NULL DEFAULT 'REGISTERED',
@@ -160,7 +159,7 @@ CREATE INDEX `fk_deliveries_orders1_idx` ON `shopdb2`.`deliveries` (`order_id` A
 DROP TABLE IF EXISTS `shopdb2`.`products` ;
 
 CREATE TABLE IF NOT EXISTS `shopdb2`.`products` (
-  `id` BIGINT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `id` BIGINT(10) UNSIGNED NOT NULL,
   `name` VARCHAR(256) NOT NULL,
   `picture` VARCHAR(128) NOT NULL,
   `color` VARCHAR(16) NOT NULL,
@@ -299,3 +298,31 @@ DELIMITER ;
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+
+-- -----------------------------------------------------
+-- Data for table `shopdb2`.`categories`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `shopdb2`;
+INSERT INTO `shopdb2`.`categories` (`id`, `name`, `picture`, `parent_id`, `create_date`, `last_update`) VALUES (1, 'cars', 'images/cars/main.jpg', NULL, DEFAULT, DEFAULT);
+INSERT INTO `shopdb2`.`categories` (`id`, `name`, `picture`, `parent_id`, `create_date`, `last_update`) VALUES (2, 'clothes', 'images/clothes/main.png', NULL, DEFAULT, DEFAULT);
+INSERT INTO `shopdb2`.`categories` (`id`, `name`, `picture`, `parent_id`, `create_date`, `last_update`) VALUES (3, 'big', 'images/cars/big.png', 1, DEFAULT, DEFAULT);
+INSERT INTO `shopdb2`.`categories` (`id`, `name`, `picture`, `parent_id`, `create_date`, `last_update`) VALUES (4, 'small', 'images/cars/small.png', 1, DEFAULT, DEFAULT);
+INSERT INTO `shopdb2`.`categories` (`id`, `name`, `picture`, `parent_id`, `create_date`, `last_update`) VALUES (5, 'women', 'images/clothes/women.jpg', 2, DEFAULT, DEFAULT);
+INSERT INTO `shopdb2`.`categories` (`id`, `name`, `picture`, `parent_id`, `create_date`, `last_update`) VALUES (6, 'men', 'images/clothes/men.jpg', 2, DEFAULT, DEFAULT);
+
+COMMIT;
+
+
+-- -----------------------------------------------------
+-- Data for table `shopdb2`.`products`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `shopdb2`;
+INSERT INTO `shopdb2`.`products` (`id`, `name`, `picture`, `color`, `manufacture_date`, `description`, `price`, `amount`, `category_id`, `create_date`, `last_update`) VALUES (1, 'Mango 77055933-TO', 'images/clothes/Mango77055933-TO.jpg', 'BLUE', '2019-02-02', NULL, 499.99, 100, 5, DEFAULT, DEFAULT);
+INSERT INTO `shopdb2`.`products` (`id`, `name`, `picture`, `color`, `manufacture_date`, `description`, `price`, `amount`, `category_id`, `create_date`, `last_update`) VALUES (2, 'Mango 77072888-08', 'images/clothes/Mango77072888-08.jpg', 'WHITE', '2018-01-01', NULL, 1199.49, 150, 5, DEFAULT, DEFAULT);
+INSERT INTO `shopdb2`.`products` (`id`, `name`, `picture`, `color`, `manufacture_date`, `description`, `price`, `amount`, `category_id`, `create_date`, `last_update`) VALUES (3, 'Tom Tailor 19243430107', 'images/clothes/tom_tailor19243430107.jpg', 'WHITE', '2020-03-05', NULL, 899.29, 120, 5, DEFAULT, DEFAULT);
+INSERT INTO `shopdb2`.`products` (`id`, `name`, `picture`, `color`, `manufacture_date`, `description`, `price`, `amount`, `category_id`, `create_date`, `last_update`) VALUES (4, 'Leo Pride 2000660001481', 'images/clothes/leo_pride_2000660001481.jpg', 'BLACK', '2017-08-01', NULL, 1999.00, 50, 5, DEFAULT, DEFAULT);
+
+COMMIT;
+
