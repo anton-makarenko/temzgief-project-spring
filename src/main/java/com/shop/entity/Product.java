@@ -3,11 +3,14 @@ package com.shop.entity;
 import com.shop.enumeration.Color;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 
 @Entity
-public class Product {
+@Table(name = "products")
+public class Product implements Serializable {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;
@@ -24,7 +27,7 @@ public class Product {
     private Integer amount;
 
     @ManyToOne
-    @Enumerated(EnumType.STRING)
+    @JoinColumn(name = "category_id")
     private Category category;
 
     @Column(name = "create_date")

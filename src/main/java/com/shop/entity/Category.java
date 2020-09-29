@@ -1,21 +1,25 @@
 package com.shop.entity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
 @Entity
-public class Category {
+@Table(name = "categories")
+public class Category implements Serializable {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;
     private String picture;
 
     @ManyToOne
+    @JoinColumn(name = "parent_id")
     private Category parentCategory;
 
-    @OneToMany
+    @OneToMany(mappedBy = "category")
     private List<Product> products;
 
     @Column(name = "create_date")

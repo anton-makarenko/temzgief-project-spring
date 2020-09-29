@@ -1,15 +1,19 @@
 package com.shop.entity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 
 @Entity
-public class Delivery {
+@Table(name = "deliveries")
+public class Delivery implements Serializable {
     @Id
     @OneToOne
+    @JoinColumn(name = "order_id")
     private Order order;
 
     @ManyToOne
+    @JoinColumn(name = "address_id")
     private Address address;
 
     @Column(name = "begin_date")
