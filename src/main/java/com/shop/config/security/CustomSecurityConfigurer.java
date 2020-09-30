@@ -27,7 +27,9 @@ public class CustomSecurityConfigurer extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/categories/**").permitAll()
-                .antMatchers("/admin/**").hasAuthority("ADMIN");
+                .antMatchers("/admin/**").hasAuthority("ADMIN")
+                .antMatchers("/auth/logout").authenticated()
+                .antMatchers("/auth/**").anonymous()
+                .antMatchers("/categories/**").permitAll();
     }
 }

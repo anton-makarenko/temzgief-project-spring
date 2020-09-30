@@ -25,11 +25,11 @@ public class Delivery implements Serializable {
     private String details;
 
     @Column(name = "create_date")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date createDate;
 
     @Column(name = "last_update")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date lastUpdate;
 
     public Order getOrder() {

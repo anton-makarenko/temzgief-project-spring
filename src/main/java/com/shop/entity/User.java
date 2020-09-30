@@ -14,7 +14,6 @@ import java.util.Date;
 @Table(name = "users")
 public class User implements UserDetails {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String email;
@@ -24,12 +23,14 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role = Role.USER;
 
-    @Column(name = "create_date")
-    @Temporal(TemporalType.DATE)
+    @Basic(optional = false)
+    @Column(name = "create_date", insertable = false, updatable = false)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date createDate;
 
-    @Column(name = "last_update")
-    @Temporal(TemporalType.DATE)
+    @Basic(optional = false)
+    @Column(name = "last_update", insertable = false, updatable = false)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date lastUpdate;
 
     public Long getId() {

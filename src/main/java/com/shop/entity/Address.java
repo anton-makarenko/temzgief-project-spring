@@ -8,7 +8,6 @@ import java.util.Date;
 @Table(name = "addresses")
 public class Address implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String country;
@@ -17,11 +16,11 @@ public class Address implements Serializable {
     private Integer apartment;
 
     @Column(name = "create_date")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date createDate;
 
     @Column(name = "last_update")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date lastUpdate;
 
     public Long getId() {
