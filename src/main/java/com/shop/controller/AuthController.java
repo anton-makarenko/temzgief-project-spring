@@ -2,6 +2,7 @@ package com.shop.controller;
 
 import com.shop.entity.User;
 import com.shop.repository.UserRepository;
+import com.shop.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,11 +11,11 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequestMapping("/auth")
 public class AuthController {
-    private UserRepository userRepository;
+    private UserService userService;
 
     @Autowired
-    public AuthController(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public AuthController(UserService userService) {
+        this.userService = userService;
     }
 
     @GetMapping("/register")
@@ -25,7 +26,7 @@ public class AuthController {
 
     @PostMapping("/register")
     public String register(Model model, User user) {
-        userRepository.save(user);
+        userService.saveUser(user);
         model.addAttribute("user", user);
         return "categories";
     }
