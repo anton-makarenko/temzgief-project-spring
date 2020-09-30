@@ -16,7 +16,7 @@ public class CategoryService {
         this.categoryRepository = categoryRepository;
     }
 
-    public List<Category> getAllCategories() {
-        return categoryRepository.findAll();
+    public List<Category> getAllRoot() {
+        return categoryRepository.findAllByParentCategoryIsNull();
     }
 }

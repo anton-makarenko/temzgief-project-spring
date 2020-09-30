@@ -304,12 +304,12 @@ SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `shopdb2`;
-INSERT INTO `shopdb2`.`categories` (`id`, `name`, `picture`, `parent_id`, `create_date`, `last_update`) VALUES (1, 'cars', 'images/cars/main.jpg', NULL, DEFAULT, DEFAULT);
-INSERT INTO `shopdb2`.`categories` (`id`, `name`, `picture`, `parent_id`, `create_date`, `last_update`) VALUES (2, 'clothes', 'images/clothes/main.png', NULL, DEFAULT, DEFAULT);
-INSERT INTO `shopdb2`.`categories` (`id`, `name`, `picture`, `parent_id`, `create_date`, `last_update`) VALUES (3, 'big', 'images/cars/big.png', 1, DEFAULT, DEFAULT);
-INSERT INTO `shopdb2`.`categories` (`id`, `name`, `picture`, `parent_id`, `create_date`, `last_update`) VALUES (4, 'small', 'images/cars/small.png', 1, DEFAULT, DEFAULT);
-INSERT INTO `shopdb2`.`categories` (`id`, `name`, `picture`, `parent_id`, `create_date`, `last_update`) VALUES (5, 'women', 'images/clothes/women.jpg', 2, DEFAULT, DEFAULT);
-INSERT INTO `shopdb2`.`categories` (`id`, `name`, `picture`, `parent_id`, `create_date`, `last_update`) VALUES (6, 'men', 'images/clothes/men.jpg', 2, DEFAULT, DEFAULT);
+INSERT INTO `shopdb2`.`categories` (`id`, `name`, `picture`, `parent_id`, `create_date`, `last_update`) VALUES (1, 'cars', '/images/cars/main.jpg', NULL, DEFAULT, DEFAULT);
+INSERT INTO `shopdb2`.`categories` (`id`, `name`, `picture`, `parent_id`, `create_date`, `last_update`) VALUES (2, 'clothes', '/images/clothes/main.png', NULL, DEFAULT, DEFAULT);
+INSERT INTO `shopdb2`.`categories` (`id`, `name`, `picture`, `parent_id`, `create_date`, `last_update`) VALUES (3, 'big', '/images/cars/big.png', 1, DEFAULT, DEFAULT);
+INSERT INTO `shopdb2`.`categories` (`id`, `name`, `picture`, `parent_id`, `create_date`, `last_update`) VALUES (4, 'small', '/images/cars/small.png', 1, DEFAULT, DEFAULT);
+INSERT INTO `shopdb2`.`categories` (`id`, `name`, `picture`, `parent_id`, `create_date`, `last_update`) VALUES (5, 'women', '/images/clothes/women.jpg', 2, DEFAULT, DEFAULT);
+INSERT INTO `shopdb2`.`categories` (`id`, `name`, `picture`, `parent_id`, `create_date`, `last_update`) VALUES (6, 'men', '/images/clothes/men.jpg', 2, DEFAULT, DEFAULT);
 
 COMMIT;
 
