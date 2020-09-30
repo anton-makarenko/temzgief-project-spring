@@ -19,4 +19,8 @@ public class CategoryService {
     public List<Category> getAllRoot() {
         return categoryRepository.findAllByParentCategoryIsNull();
     }
+
+    public List<Category> getAllClothes() {
+        return categoryRepository.findAllByParentCategoryName("clothes");
+    }
 }

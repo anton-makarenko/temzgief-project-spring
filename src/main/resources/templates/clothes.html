@@ -2,14 +2,14 @@
 <html xmlns:th="http://www.thymeleaf.org" th:lang="${#locale.language}">
 <head>
     <meta charset="UTF-8">
-    <title th:text="#{categories.name}"></title>
+    <title th:text="#{category.clothes}"></title>
 </head>
 <body>
-<div th:if="${not categories.isEmpty()}">
+<div th:if="${not clothes.isEmpty()}">
     <table class="table">
-        <tr th:each="category: ${categories}">
+        <tr th:each="category: ${clothes}">
             <td><img th:src="${category.picture}" alt="picture" height="200"></td>
-            <td><a th:href='${"/categories/" + category.name}' th:text="#{'category.' + ${category.name}}"></a></td>
+            <td th:text="#{'category.clothes.' + ${category.name}}"></td>
         </tr>
     </table>
 </div>

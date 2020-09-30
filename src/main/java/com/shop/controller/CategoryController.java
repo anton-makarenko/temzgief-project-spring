@@ -26,4 +26,11 @@ public class CategoryController {
         model.addAttribute("categories", categories);
         return "categories";
     }
+
+    @GetMapping("/clothes")
+    public String clothes(Model model) {
+        List<Category> clothes = categoryService.getAllClothes();
+        model.addAttribute("clothes", clothes);
+        return "clothes";
+    }
 }
