@@ -26,6 +26,8 @@ public class CustomSecurityConfigurer extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        super.configure(http);
+        http.authorizeRequests()
+                .antMatchers("/categories/**").permitAll()
+                .antMatchers("/admin/**").hasAuthority("ADMIN");
     }
 }
