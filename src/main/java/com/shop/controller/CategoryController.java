@@ -43,13 +43,15 @@ public class CategoryController {
     @GetMapping("/clothes/women")
     public String women(Model model,
                         @RequestParam(name = "page", defaultValue = "1") int page,
-                        @RequestParam(name = "sortBy", defaultValue = "name") String sortField) {
-        Page<Product> women = productService.getProductsPage("women", page - 1);
+                        @RequestParam(name = "sortBy", defaultValue = "name") String sortField,
+                        @RequestParam(name = "descending", defaultValue = "false") boolean descending) {
+        Page<Product> women = productService.getProductsPage("women", page - 1, sortField, descending);
         int totalPages = women.getTotalPages();
-        model.addAttribute("totalPages", totalPages);
         model.addAttribute("women", women);
+        model.addAttribute("totalPages", totalPages);
         model.addAttribute("currentPage", page);
         model.addAttribute("sortField", sortField);
+        model.addAttribute("descending", descending);
         return "women";
     }
 }
