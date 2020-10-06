@@ -44,7 +44,7 @@ public class AuthController {
     }
 
     @GetMapping("/logout")
-    public String logout(Model model, User user) {
+    public String logout(Model model) {
         model.addAttribute("user", null);
         return "redirect:/categories/all";
     }

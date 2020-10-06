@@ -25,7 +25,7 @@ public class CartController {
     }
 
     @GetMapping("/add/{categoryId}")
-    public String add(Model model, @PathVariable long categoryId) {
+    public String add(@PathVariable long categoryId) {
         orderService.addProductToCart(categoryId);
         return "cart";
     }
