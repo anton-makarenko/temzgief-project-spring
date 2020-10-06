@@ -27,11 +27,11 @@ public class AuthController {
     public String register(Model model, User user) {
         userService.saveUser(user);
         model.addAttribute("user", user);
-        return "categories";
+        return "redirect:/categories/all";
     }
 
     @GetMapping("/logout")
     public String logout(Model model, User user) {
-        return "categories";
+        return "redirect:/categories/all";
     }
 }

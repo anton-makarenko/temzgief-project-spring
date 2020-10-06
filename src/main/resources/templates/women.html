@@ -12,7 +12,7 @@
         <tbody>
         <tr th:each="woman: ${women}">
             <td><img th:src="${woman.picture}" alt="picture" height="200"></td>
-            <td th:text="${woman.name}"></td>
+            <td><a th:href='${"/cart/add/" + woman.id}' th:text="${woman.name}"></a></td>
         </tr>
         </tbody>
     </table>
