@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
 
 @Controller
-@RequestMapping("/categories")
+@RequestMapping({"/categories", "/"})
 public class CategoryController {
     private CategoryService categoryService;
     private ProductService productService;
@@ -26,7 +26,7 @@ public class CategoryController {
         this.productService = productService;
     }
 
-    @GetMapping("/all")
+    @GetMapping({"/all", ""})
     public String allCategories(Model model) {
         List<Category> categories = categoryService.getAllRoot();
         model.addAttribute("categories", categories);

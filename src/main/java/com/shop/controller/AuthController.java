@@ -3,6 +3,7 @@ package com.shop.controller;
 import com.shop.entity.User;
 import com.shop.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -30,8 +31,21 @@ public class AuthController {
         return "redirect:/categories/all";
     }
 
+    @GetMapping("/login")
+    public String login(Model model) {
+        model.addAttribute("user", new User());
+        return "login";
+    }
+
+    @PostMapping("/login")
+    public String login(Model model, User user) {
+        model.addAttribute("user", user);
+        return "redirect:/categories/all";
+    }
+
     @GetMapping("/logout")
     public String logout(Model model, User user) {
+        model.addAttribute("user", null);
         return "redirect:/categories/all";
     }
 }

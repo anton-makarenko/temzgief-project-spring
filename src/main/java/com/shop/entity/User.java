@@ -1,5 +1,6 @@
 package com.shop.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.shop.enumeration.Role;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
@@ -13,6 +14,7 @@ import java.util.Date;
 
 @Entity
 @Table(name = "users")
+//@JsonIgnoreProperties({"email", "password"})
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
