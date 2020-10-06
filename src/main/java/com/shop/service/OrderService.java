@@ -24,7 +24,7 @@ public class OrderService {
         this.productRepository = productRepository;
     }
 
-    public void addProductToCart(Long productId) {
+    public void addProductToCart(long productId) {
         User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Order order;
         Optional<Order> optionalOrder;
@@ -37,5 +37,16 @@ public class OrderService {
         }
         order.getProducts().add(productRepository.findById(productId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, Constants.NO_PRODUCT)));
         orderRepository.save(order);
+    }
+
+    public void removeProductFromCart(long productId) {
+        User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Order order;
+        Optional<Order> optionalOrder;
+        if ((optionalOrder = orderRepository.getByUserId(currentUser.getId())).isPresent()) {
+            order = optionalOrder.get();
+            order.getProducts().remove(productRepository.findById(productId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, Constants.NO_PRODUCT)));
+            orderRepository.save(order);
+        }
     }
 }

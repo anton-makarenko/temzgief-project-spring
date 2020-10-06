@@ -13,7 +13,11 @@
         <tr th:each="woman: ${women}">
             <td><img th:src="${woman.picture}" alt="picture" height="200"></td>
             <td th:text="${woman.name}"></td>
-            <td><a th:href='${"/cart/add/" + woman.id}' th:text="#{cart.add}"></a></td>
+            <td th:text="${woman.price} + ' UAH'"></td>
+            <td>
+                <span th:if="${woman.amount > 0}"><a th:href='${"/cart/add/" + woman.id}' th:text="#{cart.add}"></a></span>
+                <span th:unless="${woman.amount > 0}" th:text="#{product.empty}"></span>
+            </td>
         </tr>
         </tbody>
     </table>

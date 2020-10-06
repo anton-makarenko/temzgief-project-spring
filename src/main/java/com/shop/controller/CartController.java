@@ -24,10 +24,16 @@ public class CartController {
         this.productService = productService;
     }
 
-    @GetMapping("/add/{categoryId}")
-    public String add(@PathVariable long categoryId) {
-        orderService.addProductToCart(categoryId);
-        return "cart";
+    @GetMapping("/add/{productId}")
+    public String add(@PathVariable long productId) {
+        orderService.addProductToCart(productId);
+        return "redirect:/cart";
+    }
+
+    @GetMapping("/remove/{productId}")
+    public String remove(@PathVariable long productId) {
+        orderService.removeProductFromCart(productId);
+        return "redirect:/cart";
     }
 
     @GetMapping
