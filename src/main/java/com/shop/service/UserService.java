@@ -1,6 +1,6 @@
 package com.shop.service;
 
-import com.shop.constant.Constants;
+import com.shop.config.constant.Constants;
 import com.shop.entity.User;
 import com.shop.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;

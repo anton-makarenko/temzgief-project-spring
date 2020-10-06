@@ -1,11 +1,10 @@
 package com.shop.service;
 
-import com.shop.constant.Constants;
+import com.shop.config.constant.Constants;
 import com.shop.entity.Order;
 import com.shop.entity.User;
 import com.shop.repository.OrderRepository;
 import com.shop.repository.ProductRepository;
-import com.shop.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -25,7 +24,7 @@ public class OrderService {
         this.productRepository = productRepository;
     }
 
-    public void addToCart(Long productId) {
+    public void addProductToCart(Long productId) {
         User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Order order;
         Optional<Order> optionalOrder;

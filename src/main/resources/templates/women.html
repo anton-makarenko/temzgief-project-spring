@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" th:lang="${#locale.language}">
 
 <head>
     <meta charset="utf-8">
@@ -12,7 +12,8 @@
         <tbody>
         <tr th:each="woman: ${women}">
             <td><img th:src="${woman.picture}" alt="picture" height="200"></td>
-            <td><a th:href='${"/cart/add/" + woman.id}' th:text="${woman.name}"></a></td>
+            <td th:text="${woman.name}"></td>
+            <td><a th:href='${"/cart/add/" + woman.id}' th:text="#{cart.add}"></a></td>
         </tr>
         </tbody>
     </table>
