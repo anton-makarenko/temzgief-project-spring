@@ -1,5 +1,8 @@
 package com.shop.entity;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
@@ -10,25 +13,30 @@ public class Delivery implements Serializable {
     @Id
     @OneToOne
     @JoinColumn(name = "order_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Order order;
 
     @ManyToOne
-    @JoinColumn(name = "address_id")
+    @JoinColumn(name = "address_id", nullable = false)
     private Address address;
 
-    @Column(name = "begin_date")
+    @Column(name = "begin_date", nullable = false)
+    @Temporal(TemporalType.DATE)
     private Date beginDate;
 
-    @Column(name = "end_date")
+    @Column(name = "end_date", nullable = false)
+    @Temporal(TemporalType.DATE)
     private Date endDate;
 
     private String details;
 
-    @Column(name = "create_date")
+    @Basic(optional = false)
+    @Column(name = "create_date", insertable = false, updatable = false, columnDefinition = "timestamp not null default current_timestamp")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createDate;
 
-    @Column(name = "last_update")
+    @Basic(optional = false)
+    @Column(name = "last_update", insertable = false, updatable = false, columnDefinition = "timestamp not null default current_timestamp on update current_timestamp")
     @Temporal(TemporalType.TIMESTAMP)
     private Date lastUpdate;
 

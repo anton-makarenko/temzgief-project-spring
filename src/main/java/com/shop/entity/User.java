@@ -14,26 +14,27 @@ import java.util.Date;
 
 @Entity
 @Table(name = "users")
-//@JsonIgnoreProperties({"email", "password"})
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
+    @Column(unique = true, nullable = false)
     private String email;
 
+    @Column(nullable = false)
     private String password;
 
     @Enumerated(EnumType.STRING)
     private Role role = Role.USER;
 
     @Basic(optional = false)
-    @Column(name = "create_date", insertable = false, updatable = false)
+    @Column(name = "create_date", insertable = false, updatable = false, columnDefinition = "timestamp not null default current_timestamp")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createDate;
 
     @Basic(optional = false)
-    @Column(name = "last_update", insertable = false, updatable = false)
+    @Column(name = "last_update", insertable = false, updatable = false, columnDefinition = "timestamp not null default current_timestamp on update current_timestamp")
     @Temporal(TemporalType.TIMESTAMP)
     private Date lastUpdate;
 

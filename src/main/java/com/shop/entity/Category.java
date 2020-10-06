@@ -1,5 +1,8 @@
 package com.shop.entity;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
@@ -16,16 +19,19 @@ public class Category implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "parent_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Category parentCategory;
 
     @OneToMany(mappedBy = "category")
     private List<Product> products;
 
-    @Column(name = "create_date")
+    @Basic(optional = false)
+    @Column(name = "create_date", insertable = false, updatable = false, columnDefinition = "timestamp not null default current_timestamp")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createDate;
 
-    @Column(name = "last_update")
+    @Basic(optional = false)
+    @Column(name = "last_update", insertable = false, updatable = false, columnDefinition = "timestamp not null default current_timestamp on update current_timestamp")
     @Temporal(TemporalType.TIMESTAMP)
     private Date lastUpdate;
 

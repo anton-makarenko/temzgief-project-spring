@@ -10,16 +10,25 @@ public class Address implements Serializable {
     @Id
     private Long id;
 
+    @Column(nullable = false)
     private String country;
+
+    @Column(nullable = false)
     private String city;
+
+    @Column(nullable = false)
     private String building;
+
+    @Column
     private Integer apartment;
 
-    @Column(name = "create_date")
+    @Basic(optional = false)
+    @Column(name = "create_date", insertable = false, updatable = false, columnDefinition = "timestamp not null default current_timestamp")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createDate;
 
-    @Column(name = "last_update")
+    @Basic(optional = false)
+    @Column(name = "last_update", insertable = false, updatable = false, columnDefinition = "timestamp not null default current_timestamp on update current_timestamp")
     @Temporal(TemporalType.TIMESTAMP)
     private Date lastUpdate;
 

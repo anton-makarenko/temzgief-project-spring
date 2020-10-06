@@ -1,6 +1,8 @@
 package com.shop.entity;
 
 import com.shop.enumeration.Status;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -16,8 +18,10 @@ public class Order implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private User user;
 
+    @Column(nullable = false, columnDefinition = "double unsigned")
     private Double total;
 
     @Enumerated(EnumType.STRING)
@@ -27,11 +31,13 @@ public class Order implements Serializable {
     @JoinTable(name = "orders_products", joinColumns = @JoinColumn(name = "order_id"), inverseJoinColumns = @JoinColumn(name = "product_id"))
     private List<Product> products = new ArrayList<>();
 
-    @Column(name = "create_date")
+    @Basic(optional = false)
+    @Column(name = "create_date", insertable = false, updatable = false, columnDefinition = "timestamp not null default current_timestamp")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createDate;
 
-    @Column(name = "last_update")
+    @Basic(optional = false)
+    @Column(name = "last_update", insertable = false, updatable = false, columnDefinition = "timestamp not null default current_timestamp on update current_timestamp")
     @Temporal(TemporalType.TIMESTAMP)
     private Date lastUpdate;
 

@@ -1,6 +1,8 @@
 package com.shop.entity;
 
 import com.shop.enumeration.Color;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -12,28 +14,40 @@ public class Product implements Serializable {
     @Id
     private Long id;
 
+    @Column(unique = true, nullable = false)
     private String name;
+
+    @Column(unique = true, nullable = false)
     private String picture;
 
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private Color color;
 
-    @Column(name = "manufacture_date")
+    @Column(name = "manufacture_date", nullable = false)
+    @Temporal(TemporalType.DATE)
     private Date manufactureDate;
 
     private String description;
+
+    @Column(nullable = false, columnDefinition = "double unsigned")
     private Double price;
+
+    @Column(nullable = false, columnDefinition = "int(11) unsigned")
     private Integer amount;
 
     @ManyToOne
     @JoinColumn(name = "category_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Category category;
 
-    @Column(name = "create_date")
+    @Basic(optional = false)
+    @Column(name = "create_date", insertable = false, updatable = false, columnDefinition = "timestamp not null default current_timestamp")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createDate;
 
-    @Column(name = "last_update")
+    @Basic(optional = false)
+    @Column(name = "last_update", insertable = false, updatable = false, columnDefinition = "timestamp not null default current_timestamp on update current_timestamp")
     @Temporal(TemporalType.TIMESTAMP)
     private Date lastUpdate;
 
