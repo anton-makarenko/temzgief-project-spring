@@ -5,13 +5,13 @@ import java.util.Arrays;
 import java.util.List;
 
 public enum Status {
-    REGISTERED, PAID, CANCELLED, IN_PROCESS;
+    REGISTERED, PAID, CANCELLED, CREATED;
 
     public List<Status> allowedTransactions() {
         switch (this) {
             case REGISTERED:
                 return new ArrayList<>(Arrays.asList(PAID, CANCELLED));
-            case IN_PROCESS:
+            case CREATED:
                 return new ArrayList<>(Arrays.asList(REGISTERED));
             default:
                 return new ArrayList<>(0);

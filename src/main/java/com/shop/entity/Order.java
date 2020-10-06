@@ -14,6 +14,7 @@ import java.util.List;
 @Table(name = "orders")
 public class Order implements Serializable {
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
     @ManyToOne
@@ -22,10 +23,10 @@ public class Order implements Serializable {
     private User user;
 
     @Column(nullable = false, columnDefinition = "double unsigned")
-    private Double total;
+    private Double total = 0D;
 
     @Enumerated(EnumType.STRING)
-    private Status status;
+    private Status status = Status.CREATED;
 
     @ManyToMany
     @JoinTable(name = "orders_products", joinColumns = @JoinColumn(name = "order_id"), inverseJoinColumns = @JoinColumn(name = "product_id"))

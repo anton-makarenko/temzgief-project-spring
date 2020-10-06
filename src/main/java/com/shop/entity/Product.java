@@ -12,6 +12,7 @@ import java.util.Date;
 @Table(name = "products")
 public class Product implements Serializable {
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
     @Column(unique = true, nullable = false)

@@ -21,7 +21,7 @@ USE `shopdb2` ;
 DROP TABLE IF EXISTS `shopdb2`.`addresses` ;
 
 CREATE TABLE IF NOT EXISTS `shopdb2`.`addresses` (
-  `id` BIGINT(10) UNSIGNED NOT NULL,
+  `id` BIGINT(10) NOT NULL,
   `country` VARCHAR(128) NOT NULL,
   `city` VARCHAR(128) NOT NULL,
   `building` VARCHAR(16) NOT NULL,
@@ -37,52 +37,15 @@ CREATE UNIQUE INDEX `country_city_building__apartment_UNIQUE` ON `shopdb2`.`addr
 
 
 -- -----------------------------------------------------
--- Table `shopdb2`.`users`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `shopdb2`.`users` ;
-
-CREATE TABLE IF NOT EXISTS `shopdb2`.`users` (
-  `id` BIGINT(10) UNSIGNED NOT NULL,
-  `email` VARCHAR(256) NOT NULL,
-  `password` VARCHAR(64) NOT NULL,
-  `role` VARCHAR(16) NOT NULL,
-  `create_date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `last_update` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8
-COLLATE = utf8_bin;
-
-CREATE UNIQUE INDEX `email_UNIQUE` ON `shopdb2`.`users` (`email` ASC) VISIBLE;
-
-
--- -----------------------------------------------------
--- Table `shopdb2`.`blocked_users`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `shopdb2`.`blocked_users` ;
-
-CREATE TABLE IF NOT EXISTS `shopdb2`.`blocked_users` (
-  `user_id` BIGINT(10) UNSIGNED NOT NULL,
-  `block_date` DATE NOT NULL,
-  PRIMARY KEY (`user_id`),
-  CONSTRAINT `fk_blocked_users_users1`
-    FOREIGN KEY (`user_id`)
-    REFERENCES `shopdb2`.`users` (`id`))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8
-COLLATE = utf8_bin;
-
-
--- -----------------------------------------------------
 -- Table `shopdb2`.`categories`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `shopdb2`.`categories` ;
 
 CREATE TABLE IF NOT EXISTS `shopdb2`.`categories` (
-  `id` BIGINT(10) UNSIGNED NOT NULL,
+  `id` BIGINT(10) NOT NULL,
   `name` VARCHAR(256) NOT NULL,
   `picture` VARCHAR(128) NOT NULL,
-  `parent_id` BIGINT(10) UNSIGNED NULL DEFAULT NULL,
+  `parent_id` BIGINT(10) NULL DEFAULT NULL,
   `create_date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `last_update` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
@@ -101,13 +64,33 @@ CREATE INDEX `fk_categories_categories1_idx` ON `shopdb2`.`categories` (`parent_
 
 
 -- -----------------------------------------------------
+-- Table `shopdb2`.`users`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `shopdb2`.`users` ;
+
+CREATE TABLE IF NOT EXISTS `shopdb2`.`users` (
+  `id` BIGINT(10) NOT NULL,
+  `email` VARCHAR(256) NOT NULL,
+  `password` VARCHAR(64) NOT NULL,
+  `role` VARCHAR(16) NOT NULL,
+  `create_date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `last_update` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_bin;
+
+CREATE UNIQUE INDEX `email_UNIQUE` ON `shopdb2`.`users` (`email` ASC) VISIBLE;
+
+
+-- -----------------------------------------------------
 -- Table `shopdb2`.`orders`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `shopdb2`.`orders` ;
 
 CREATE TABLE IF NOT EXISTS `shopdb2`.`orders` (
-  `id` BIGINT(10) UNSIGNED NOT NULL,
-  `user_id` BIGINT(10) UNSIGNED NOT NULL,
+  `id` BIGINT(10) NOT NULL,
+  `user_id` BIGINT(10) NOT NULL,
   `total` DOUBLE UNSIGNED NOT NULL DEFAULT '0',
   `status` VARCHAR(16) NOT NULL DEFAULT 'REGISTERED',
   `create_date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -130,11 +113,11 @@ CREATE INDEX `fk_orders_users1_idx` ON `shopdb2`.`orders` (`user_id` ASC) VISIBL
 DROP TABLE IF EXISTS `shopdb2`.`deliveries` ;
 
 CREATE TABLE IF NOT EXISTS `shopdb2`.`deliveries` (
-  `order_id` BIGINT(10) UNSIGNED NOT NULL,
+  `order_id` BIGINT(10) NOT NULL,
   `begin_date` DATE NOT NULL,
   `end_date` DATE NOT NULL,
   `details` VARCHAR(2048) NULL DEFAULT NULL,
-  `address_id` BIGINT(10) UNSIGNED NOT NULL,
+  `address_id` BIGINT(10) NOT NULL,
   `create_date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `last_update` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`order_id`),
@@ -159,7 +142,7 @@ CREATE INDEX `fk_deliveries_orders1_idx` ON `shopdb2`.`deliveries` (`order_id` A
 DROP TABLE IF EXISTS `shopdb2`.`products` ;
 
 CREATE TABLE IF NOT EXISTS `shopdb2`.`products` (
-  `id` BIGINT(10) UNSIGNED NOT NULL,
+  `id` BIGINT(10) NOT NULL,
   `name` VARCHAR(256) NOT NULL,
   `picture` VARCHAR(128) NOT NULL,
   `color` VARCHAR(16) NOT NULL,
@@ -167,7 +150,7 @@ CREATE TABLE IF NOT EXISTS `shopdb2`.`products` (
   `description` VARCHAR(4096) NULL DEFAULT NULL,
   `price` DOUBLE UNSIGNED NOT NULL,
   `amount` INT(10) UNSIGNED NOT NULL DEFAULT '0',
-  `category_id` BIGINT(10) UNSIGNED NOT NULL,
+  `category_id` BIGINT(10) NOT NULL,
   `create_date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `last_update` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
@@ -189,11 +172,8 @@ CREATE INDEX `fk_products_categories1_idx` ON `shopdb2`.`products` (`category_id
 DROP TABLE IF EXISTS `shopdb2`.`orders_products` ;
 
 CREATE TABLE IF NOT EXISTS `shopdb2`.`orders_products` (
-  `order_id` BIGINT(10) UNSIGNED NOT NULL,
-  `product_id` BIGINT(10) UNSIGNED NOT NULL,
-  `count` INT(10) UNSIGNED NOT NULL,
-  `price` DOUBLE UNSIGNED NOT NULL,
-  PRIMARY KEY (`order_id`, `product_id`),
+  `order_id` BIGINT(10) NOT NULL,
+  `product_id` BIGINT(10) NOT NULL,
   CONSTRAINT `fk_cart_has_products_cart1`
     FOREIGN KEY (`order_id`)
     REFERENCES `shopdb2`.`orders` (`id`),
@@ -213,19 +193,6 @@ USE `shopdb2`;
 DELIMITER $$
 
 USE `shopdb2`$$
-DROP TRIGGER IF EXISTS `shopdb2`.`blocked_users_BEFORE_INSERT` $$
-USE `shopdb2`$$
-CREATE
-DEFINER=`root`@`localhost`
-TRIGGER `shopdb2`.`blocked_users_BEFORE_INSERT`
-BEFORE INSERT ON `shopdb2`.`blocked_users`
-FOR EACH ROW
-BEGIN
-	SET NEW.block_date = CURDATE();
-END$$
-
-
-USE `shopdb2`$$
 DROP TRIGGER IF EXISTS `shopdb2`.`orders_products_BEFORE_INSERT` $$
 USE `shopdb2`$$
 CREATE
@@ -234,48 +201,10 @@ TRIGGER `shopdb2`.`orders_products_BEFORE_INSERT`
 BEFORE INSERT ON `shopdb2`.`orders_products`
 FOR EACH ROW
 BEGIN
-	DECLARE new_amount INT;
-    SET NEW.price = (SELECT price FROM products WHERE NEW.product_id = id);
-    SET new_amount = (SELECT amount FROM products WHERE id = NEW.product_id) - NEW.count;
-    IF (new_amount < 0) THEN
-		SIGNAL SQLSTATE '45001' SET message_text = 'Not enough products';
-	END IF;
-    UPDATE products SET amount = new_amount WHERE id = NEW.product_id;
-    UPDATE orders SET total = total + NEW.price * NEW.count WHERE id = NEW.order_id;
-END$$
-
-
-USE `shopdb2`$$
-DROP TRIGGER IF EXISTS `shopdb2`.`orders_products_BEFORE_UPDATE` $$
-USE `shopdb2`$$
-CREATE
-DEFINER=`root`@`localhost`
-TRIGGER `shopdb2`.`orders_products_BEFORE_UPDATE`
-BEFORE UPDATE ON `shopdb2`.`orders_products`
-FOR EACH ROW
-BEGIN
-	DECLARE delta INT;
-    SET delta = NEW.count - count;
-    IF (delta < 0) THEN
-		UPDATE products SET amount = (SELECT amount FROM products WHERE id = product_id) + delta;
-    ELSE
-		UPDATE products SET amount = (SELECT amount FROM products WHERE id = product_id) - delta;
-    END IF;
-END$$
-
-
-USE `shopdb2`$$
-DROP TRIGGER IF EXISTS `shopdb2`.`orders_products_AFTER_UPDATE` $$
-USE `shopdb2`$$
-CREATE
-DEFINER=`root`@`localhost`
-TRIGGER `shopdb2`.`orders_products_AFTER_UPDATE`
-AFTER UPDATE ON `shopdb2`.`orders_products`
-FOR EACH ROW
-BEGIN
-	IF (count = 0) THEN
-		DELETE FROM ORDER_HAS_PRODUCT WHERE order_id = OLD;
-	END IF;
+    DECLARE product_price DOUBLE;
+    SET product_price = (SELECT price FROM products WHERE id = NEW.product_id);
+    UPDATE products SET amount = amount - 1 WHERE id = NEW.product_id;
+    UPDATE orders SET total = total + product_price WHERE id = NEW.order_id;
 END$$
 
 
@@ -288,8 +217,10 @@ TRIGGER `shopdb2`.`orders_products_AFTER_DELETE`
 AFTER DELETE ON `shopdb2`.`orders_products`
 FOR EACH ROW
 BEGIN
-	UPDATE products SET amount = amount + OLD.count WHERE id = OLD.product_id;
-    UPDATE orders SET total = total - OLD.price * OLD.count WHERE id = OLD.order_id;
+    DECLARE product_price DOUBLE;
+	SET product_price = (SELECT price FROM products WHERE id = OLD.product_id);
+	UPDATE products SET amount = amount + 1 WHERE id = OLD.product_id;
+    UPDATE orders SET total = total - product_price WHERE id = OLD.order_id;
 END$$
 
 

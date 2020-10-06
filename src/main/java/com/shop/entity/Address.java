@@ -8,6 +8,7 @@ import java.util.Date;
 @Table(name = "addresses")
 public class Address implements Serializable {
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
     @Column(nullable = false)

@@ -12,9 +12,13 @@ import java.util.List;
 @Table(name = "categories")
 public class Category implements Serializable {
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
+    @Column(nullable = false, unique = true)
     private String name;
+
+    @Column(nullable = false, unique = true)
     private String picture;
 
     @ManyToOne
