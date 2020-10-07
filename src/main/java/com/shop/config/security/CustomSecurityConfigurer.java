@@ -33,7 +33,7 @@ public class CustomSecurityConfigurer extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/admin/**").hasAuthority("ADMIN")
                 .antMatchers("/categories/**").permitAll()
-                .antMatchers("/cart/**").authenticated()
+                .antMatchers("/cart/**").hasAnyAuthority("USER", "ADMIN")
                 .and()
                 .formLogin()
                 .loginPage("/auth/login").defaultSuccessUrl("/categories/all").usernameParameter("email").permitAll()
