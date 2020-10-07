@@ -3,6 +3,7 @@ package com.shop.service;
 import com.shop.config.constant.Constants;
 import com.shop.entity.Order;
 import com.shop.entity.User;
+import com.shop.enumeration.Status;
 import com.shop.repository.OrderRepository;
 import com.shop.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -48,5 +50,12 @@ public class OrderService {
             order.getProducts().remove(productRepository.findById(productId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, Constants.NO_PRODUCT)));
             orderRepository.save(order);
         }
+    }
+
+    public void submitOrdersInCart() {
+        User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        List<Order> orders = orderRepository.getAllByUserIdAndStatus(currentUser.getId(), Status.CREATED);
+        orders.forEach((order) -> order.setStatus(Status.REGISTERED));
+        orderRepository.saveAll(orders);
     }
 }

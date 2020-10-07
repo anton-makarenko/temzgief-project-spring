@@ -36,6 +36,12 @@ public class CartController {
         return "redirect:/cart";
     }
 
+    @GetMapping("/submit")
+    public String submit() {
+        orderService.submitOrdersInCart();
+        return "redirect:/categories/all";
+    }
+
     @GetMapping
     public String cart(Model model,
                        @RequestParam(name = "page", defaultValue = "1") int page,

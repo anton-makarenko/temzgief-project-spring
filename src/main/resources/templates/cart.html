@@ -18,10 +18,12 @@
             <td><a th:href='${"/cart/remove/" + product.id}' th:text="#{cart.remove}"></a></td>
         </tr>
         </tbody>
+        <div class="container">
+            <form method="get" th:action="@{/cart/submit}">
+                <button type="submit" class="btn btn-primary" th:text="#{cart.submit}"></button>
+            </form>
+        </div>
     </table>
-    <div class="container">
-        
-    </div>
     <div th:if="${totalPages > 1}">
         <div class="row col-sm-10">
             <div class="col-sm-1">
