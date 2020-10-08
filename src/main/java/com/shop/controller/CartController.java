@@ -45,15 +45,15 @@ public class CartController {
     @GetMapping
     public String cart(Model model,
                        @RequestParam(name = "page", defaultValue = "1") int page,
-                       @RequestParam(name = "sortBy", defaultValue = "name") String sortField,
+                       @RequestParam(name = "sortBy", defaultValue = "name") String sortBy,
                        @RequestParam(name = "descending", defaultValue = "false") boolean descending) {
-        Page<Product> products = productService.getProductsInCart(page - 1, sortField, descending);
+        Page<Product> products = productService.getProductsInCart(page - 1, sortBy, descending);
         model.addAttribute("productsInCart", products);
         model.addAttribute("products", products);
         int totalPages = products.getTotalPages();
         model.addAttribute("totalPages", totalPages);
         model.addAttribute("currentPage", page);
-        model.addAttribute("sortField", sortField);
+        model.addAttribute("sortBy", sortBy);
         model.addAttribute("descending", descending);
         return "cart";
     }
