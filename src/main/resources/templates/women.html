@@ -4,7 +4,8 @@
 <head>
     <meta charset="utf-8">
     <title th:text="#{category.clothes.women}"></title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
+          integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous"/>
 </head>
 <body>
 <div class="container my-2">
@@ -15,17 +16,32 @@
             <td th:text="${woman.name}"></td>
             <td th:text="${woman.price} + ' UAH'"></td>
             <td>
-                <span th:if="${woman.amount > 0}"><a th:href='${"/cart/add/" + woman.id}' th:text="#{cart.add}"></a></span>
-                <span th:unless="${woman.amount > 0}" th:text="#{product.empty}"></span>
+                <span th:if="${woman.amount > 0}"><a th:href='${"/cart/add/" + woman.id}'
+                                                     th:text="#{cart.add}"></a></span>
+                <span th:unless="${woman.amount > 0}" th:text="#{product.zero}"></span>
             </td>
         </tr>
         </tbody>
     </table>
+
+    <form method="get" th:action="@{/categories/clothes/women}" style="position: fixed; right: 15%; top: 1%">
+        <input type="radio" name="sortBy" value="name" th:text="#{product.name}" th:checked="${sortBy eq 'name'}"/><br>
+        <input type="radio" name="sortBy" value="price" th:text="#{product.price}"
+               th:checked="${sortBy eq 'price'}"><br>
+        <input type="radio" name="sortBy" value="manufactureDate" th:text="#{product.date}"
+               th:checked="${sortBy eq 'manufactureDate'}"/><br>
+        <input type="radio" name="descending" value="false" th:text="#{product.ascending}" th:checked="${!descending}"/><br>
+        <input type="radio" name="descending" value="true" th:text="#{product.descending}"
+               th:checked="${descending}"><br>
+        <button type="submit" class="btn btn-primary" th:text="#{product.sort}"></button>
+    </form>
+
     <div th:if="${totalPages > 1}">
         <div class="row col-sm-10">
             <div class="col-sm-1">
                     <span th:each="i: ${#numbers.sequence(1, totalPages)}">
-                        <a th:if="${currentPage != i}" th:href="@{'?page=' + ${i} + '&sortField=' + ${sortField} + '&descending=' + ${descending}}">[[${i}]]</a>
+                        <a th:if="${currentPage != i}"
+                           th:href="@{'?page=' + ${i} + '&sortBy=' + ${sortBy} + '&descending=' + ${descending}}">[[${i}]]</a>
                         <span th:unless="${currentPage != i}">[[${i}]]</span> &nbsp; &nbsp;
                     </span>
             </div>
