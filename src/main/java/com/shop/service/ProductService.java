@@ -40,4 +40,8 @@ public class ProductService {
                 ? productRepository.findAllByOrders(orders, PageRequest.of(page, Constants.PRODUCTS_PER_PAGE, Sort.by(sortField).descending()))
                 : productRepository.findAllByOrders(orders, PageRequest.of(page, Constants.PRODUCTS_PER_PAGE, Sort.by(sortField).ascending()));
     }
+
+    public Page<Product> getProductsFiltered(String categoryName, int page, boolean descending) {
+        return null;
+    }
 }
