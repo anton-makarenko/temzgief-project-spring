@@ -42,8 +42,10 @@ public class ProductService {
         Specification<Product> haveColors = null;
         if (colors.size() == 0)
             colors = Arrays.asList(Color.values());
+        else if (colors.size() == 1)
+            haveColors = hasColor(colors.get(0));
         for (int i = 0; i < colors.size() - 1; i++)
-            haveColors = hasColor(colors.get(i)).and(hasColor(colors.get(i + 1)));
+            haveColors = hasColor(colors.get(i)).or(hasColor(colors.get(i + 1)));
         assert haveColors != null;
         Specification<Product> specification = haveColors.and(inCategory(categoryName)).and(priceBetween(from, to));
         return descending
