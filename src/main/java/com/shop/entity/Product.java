@@ -11,7 +11,8 @@ import java.util.List;
 
 @Entity
 @Table(name = "products")
-public class Product implements Serializable {
+@Inheritance(strategy = InheritanceType.JOINED)
+public abstract class Product implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;

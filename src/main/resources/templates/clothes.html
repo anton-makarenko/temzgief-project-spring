@@ -9,7 +9,7 @@
     <table class="table">
         <tr th:each="c: ${category}">
             <td><img th:src="${c.picture}" alt="picture" height="200"></td>
-            <td><a th:href="${'/' + c.name}" th:text="#{'category.clothes.' + ${c.name}}"></a></td>
+            <td><a th:href="${'/clothes/' + c.name}" th:text="#{'category.clothes.' + ${c.name}}"></a></td>
         </tr>
     </table>
 </div>

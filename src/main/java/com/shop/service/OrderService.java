@@ -5,7 +5,7 @@ import com.shop.entity.Order;
 import com.shop.entity.User;
 import com.shop.enumeration.Status;
 import com.shop.repository.OrderRepository;
-import com.shop.repository.ProductRepository;
+import com.shop.repository.ClothesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -18,12 +18,12 @@ import java.util.Optional;
 @Service
 public class OrderService {
     private OrderRepository orderRepository;
-    private ProductRepository productRepository;
+    private ClothesRepository clothesRepository;
 
     @Autowired
-    public OrderService(OrderRepository orderRepository, ProductRepository productRepository) {
+    public OrderService(OrderRepository orderRepository, ClothesRepository clothesRepository) {
         this.orderRepository = orderRepository;
-        this.productRepository = productRepository;
+        this.clothesRepository = clothesRepository;
     }
 
     public void addProductToCart(long productId) {
@@ -37,7 +37,7 @@ public class OrderService {
             order.setUser(currentUser);
             orderRepository.save(order);
         }
-        order.getProducts().add(productRepository.findById(productId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, Constants.NO_PRODUCT)));
+        order.getProducts().add(clothesRepository.findById(productId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, Constants.NO_PRODUCT)));
         orderRepository.save(order);
     }
 
@@ -47,7 +47,7 @@ public class OrderService {
         Optional<Order> optionalOrder;
         if ((optionalOrder = orderRepository.getByUserId(currentUser.getId())).isPresent()) {
             order = optionalOrder.get();
-            order.getProducts().remove(productRepository.findById(productId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, Constants.NO_PRODUCT)));
+            order.getProducts().remove(clothesRepository.findById(productId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, Constants.NO_PRODUCT)));
             orderRepository.save(order);
         }
     }

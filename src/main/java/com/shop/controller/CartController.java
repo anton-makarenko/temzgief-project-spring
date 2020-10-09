@@ -47,7 +47,7 @@ public class CartController {
                        @RequestParam(name = "page", defaultValue = "1") int page,
                        @RequestParam(name = "sortBy", defaultValue = "name") String sortBy,
                        @RequestParam(name = "descending", defaultValue = "false") boolean descending) {
-        Page<Product> products = productService.getProductsInCart(page - 1, sortBy, descending);
+        Page<Product> products = productService.getClothesInCart(page - 1, sortBy, descending);
         model.addAttribute("productsInCart", products);
         model.addAttribute("products", products);
         int totalPages = products.getTotalPages();
