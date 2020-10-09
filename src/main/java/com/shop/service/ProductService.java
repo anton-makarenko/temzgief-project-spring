@@ -4,6 +4,7 @@ import com.shop.config.constant.Constants;
 import com.shop.entity.Order;
 import com.shop.entity.Product;
 import com.shop.entity.User;
+import com.shop.enumeration.Color;
 import com.shop.enumeration.Status;
 import com.shop.repository.OrderRepository;
 import com.shop.repository.ProductRepository;
@@ -11,10 +12,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
+import static com.shop.repository.specification.ProductSpecification.*;
 
 @Service
 public class ProductService {
@@ -42,6 +46,8 @@ public class ProductService {
     }
 
     public Page<Product> getProductsFiltered(String categoryName, int page, boolean descending) {
-        return null;
+        Specification<Product> specification = hasColor(Color.BLACK).and(inCategory(categoryName)).and(priceBetween(0, 2000));
+        Page<Product> products = productRepository.findAll(specification, PageRequest.of(page, Constants.PRODUCTS_PER_PAGE, Sort.by("price").ascending()));
+        return products;
     }
 }
