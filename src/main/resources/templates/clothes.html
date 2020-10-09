@@ -5,11 +5,11 @@
     <title th:text="#{category.clothes}"></title>
 </head>
 <body>
-<div th:if="${not clothes.isEmpty()}">
+<div th:if="${not category.isEmpty()}">
     <table class="table">
-        <tr th:each="category: ${clothes}">
-            <td><img th:src="${category.picture}" alt="picture" height="200"></td>
-            <td><a th:href="${'/categories/clothes/' + category.name}" th:text="#{'category.clothes.' + ${category.name}}"></a></td>
+        <tr th:each="c: ${category}">
+            <td><img th:src="${c.picture}" alt="picture" height="200"></td>
+            <td><a th:href="${'/' + c.name}" th:text="#{'category.clothes.' + ${c.name}}"></a></td>
         </tr>
     </table>
 </div>

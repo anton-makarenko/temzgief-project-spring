@@ -1,7 +1,9 @@
 package com.shop.controller;
 
+import com.shop.config.constant.Constants;
 import com.shop.entity.Category;
 import com.shop.entity.Product;
+import com.shop.enumeration.Color;
 import com.shop.service.CategoryService;
 import com.shop.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -26,7 +29,7 @@ public class CategoryController {
         this.productService = productService;
     }
 
-    @GetMapping({"/all", ""})
+    @GetMapping({"/all", "/"})
     public String allCategories(Model model) {
         List<Category> categories = categoryService.getAllRoot();
         model.addAttribute("categories", categories);
@@ -34,24 +37,29 @@ public class CategoryController {
     }
 
     @GetMapping("/clothes")
-    public String clothes(Model model) {
-        List<Category> clothes = categoryService.getAllClothes();
-        model.addAttribute("clothes", clothes);
+    public String category(Model model) {
+        List<Category> category = categoryService.getAllByParent("clothes");
+        model.addAttribute("category", category);
         return "clothes";
     }
 
-    @GetMapping("/clothes/women")
+    @GetMapping("/{category}")
     public String women(Model model,
+                        @PathVariable String category,
                         @RequestParam(name = "page", defaultValue = "1") int page,
                         @RequestParam(name = "sortBy", defaultValue = "name") String sortBy,
-                        @RequestParam(name = "descending", defaultValue = "false") boolean descending) {
-        Page<Product> women = productService.getProductsPage("women", sortBy, descending, page - 1);
-        int totalPages = women.getTotalPages();
-        model.addAttribute("women", women);
+                        @RequestParam(name = "descending", defaultValue = "false") boolean descending,
+                        @RequestParam(name = "color", required = false) List<Color> colors,
+                        @RequestParam(name = "min", defaultValue = "0") double min,
+                        @RequestParam(name = "max", defaultValue = Constants.MAX_CLOTHES) double max) {
+        Page<Product> products = productService.getProductsPage(category, sortBy, descending, page - 1);
+        int totalPages = products.getTotalPages();
+        model.addAttribute("products", products);
         model.addAttribute("totalPages", totalPages);
         model.addAttribute("currentPage", page);
         model.addAttribute("sortBy", sortBy);
         model.addAttribute("descending", descending);
-        return "women";
+        model.addAttribute("colors", colors);
+        return category;
     }
 }

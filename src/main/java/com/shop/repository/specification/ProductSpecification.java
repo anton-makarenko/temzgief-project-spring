@@ -12,8 +12,8 @@ public final class ProductSpecification {
         return (r, cq, cb) -> cb.equal(r.get("color"), color);
     }
 
-    public static Specification<Product> priceBetween(double from, double to) {
-        return (r, cq, cb) -> cb.between(r.get("price"), from, to);
+    public static Specification<Product> priceBetween(double min, double max) {
+        return (r, cq, cb) -> cb.between(r.get("price"), min, max);
     }
 
     public static Specification<Product> inCategory(String categoryName) {

@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -14,4 +15,10 @@ import java.util.List;
 public interface ProductRepository extends JpaRepository<Product, Long>, JpaSpecificationExecutor<Product> {
     Page<Product> findAllByCategoryName(String categoryName, Pageable pageable);
     Page<Product> findAllByOrders(List<Order> orders, Pageable pageable);
+
+    @Query(value = "select coalesce(max(price), 0) from products", nativeQuery = true)
+    double getMaxPrice();
+
+    @Query(value = "select coalesce(min(price), 0) from products", nativeQuery = true)
+    double getMinPrice();
 }

@@ -8,7 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping("/auth")
+@RequestMapping({"/auth", "/"})
 public class AuthController {
     private UserService userService;
 
@@ -27,7 +27,7 @@ public class AuthController {
     public String register(Model model, User user) {
         userService.saveUser(user);
         model.addAttribute("user", user);
-        return "redirect:/categories/all";
+        return "redirect:/categories";
     }
 
     @GetMapping("/login")
@@ -39,12 +39,12 @@ public class AuthController {
     @PostMapping("/login")
     public String login(Model model, User user) {
         model.addAttribute("user", user);
-        return "redirect:/categories/all";
+        return "redirect:/categories";
     }
 
     @GetMapping("/logout")
     public String logout(Model model) {
         model.addAttribute("user", null);
-        return "redirect:/categories/all";
+        return "redirect:/categories";
     }
 }

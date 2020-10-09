@@ -40,7 +40,7 @@ public class ProductService {
 
     public Page<Product> getProductsPage(String categoryName, List<Color> colors, double from, double to, String sortField, boolean descending, int page) {
         Specification<Product> haveColors = null;
-        if (colors.size() == 0)
+        if (colors == null || colors.size() == 0)
             colors = Arrays.asList(Color.values());
         else if (colors.size() == 1)
             haveColors = hasColor(colors.get(0));
@@ -59,5 +59,13 @@ public class ProductService {
         return descending
                 ? productRepository.findAllByOrders(orders, PageRequest.of(page, Constants.PRODUCTS_PER_PAGE, Sort.by(sortField).descending()))
                 : productRepository.findAllByOrders(orders, PageRequest.of(page, Constants.PRODUCTS_PER_PAGE, Sort.by(sortField).ascending()));
+    }
+
+    public double minPrice() {
+        return productRepository.getMinPrice();
+    }
+
+    public double maxPrice() {
+        return productRepository.getMaxPrice();
     }
 }

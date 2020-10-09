@@ -9,7 +9,7 @@
 </head>
 <body>
 <div class="container my-2">
-    <form method="get" th:action="@{/categories/clothes/women}">
+    <form method="get" th:action="@{/women}">
         <input type="radio" name="sortBy" value="name" th:text="#{product.name}" th:checked="${sortBy eq 'name'}"/><br>
         <input type="radio" name="sortBy" value="price" th:text="#{product.price}"
                th:checked="${sortBy eq 'price'}"><br>
@@ -18,19 +18,22 @@
         <input type="radio" name="descending" value="false" th:text="#{product.ascending}" th:checked="${!descending}"/><br>
         <input type="radio" name="descending" value="true" th:text="#{product.descending}"
                th:checked="${descending}"><br>
+        <input type="checkbox" name="color" value="black" th:text="#{product.color.black}"/><br>
+        <input type="checkbox" name="color" value="blue" th:text="#{product.color.blue}"/><br>
+        <input type="checkbox" name="color" value="white" th:text="#{product.color.white}"/><br>
         <button type="submit" class="btn btn-primary" th:text="#{product.sort}"></button>
     </form>
 
     <table class="table table-striped table-responsive-md">
         <tbody>
-        <tr th:each="woman: ${women}">
-            <td><img th:src="${woman.picture}" alt="picture" height="200"></td>
-            <td th:text="${woman.name}"></td>
-            <td th:text="${woman.price} + ' UAH'"></td>
+        <tr th:each="product: ${products}">
+            <td><img th:src="${product.picture}" alt="picture" height="200"></td>
+            <td th:text="${product.name}"></td>
+            <td th:text="${product.price} + ' UAH'"></td>
             <td>
-                <span th:if="${woman.amount > 0}"><a th:href='${"/cart/add/" + woman.id}'
+                <span th:if="${product.amount > 0}"><a th:href='${"/cart/add/" + product.id}'
                                                      th:text="#{cart.add}"></a></span>
-                <span th:unless="${woman.amount > 0}" th:text="#{product.zero}"></span>
+                <span th:unless="${product.amount > 0}" th:text="#{product.zero}"></span>
             </td>
         </tr>
         </tbody>

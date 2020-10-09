@@ -6,6 +6,8 @@ public final class Constants {
 
     public static final int PRODUCTS_PER_PAGE = 2;
 
+    public static final String MAX_CLOTHES = "10000000";
+
     private Constants() {
 
     }

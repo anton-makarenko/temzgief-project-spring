@@ -20,7 +20,7 @@ public class CategoryService {
         return categoryRepository.findAllByParentCategoryIsNull();
     }
 
-    public List<Category> getAllClothes() {
-        return categoryRepository.findAllByParentCategoryName("clothes");
+    public List<Category> getAllByParent(String name) {
+        return categoryRepository.findAllByParentCategoryName(name);
     }
 }
