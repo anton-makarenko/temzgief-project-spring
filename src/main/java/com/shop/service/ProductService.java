@@ -16,6 +16,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
 
 import static com.shop.repository.specification.ProductSpecification.*;
@@ -31,10 +32,23 @@ public class ProductService {
         this.orderRepository = orderRepository;
     }
 
-    public Page<Product> getProductsPage(String categoryName, int page, String sortField, boolean descending) {
+    public Page<Product> getProductsPage(String categoryName, String sortField, boolean descending, int page) {
         return descending
                 ? productRepository.findAllByCategoryName(categoryName, PageRequest.of(page, Constants.PRODUCTS_PER_PAGE, Sort.by(sortField).descending()))
                 : productRepository.findAllByCategoryName(categoryName, PageRequest.of(page, Constants.PRODUCTS_PER_PAGE, Sort.by(sortField).ascending()));
+    }
+
+    public Page<Product> getProductsPage(String categoryName, List<Color> colors, double from, double to, String sortField, boolean descending, int page) {
+        Specification<Product> haveColors = null;
+        if (colors.size() == 0)
+            colors = Arrays.asList(Color.values());
+        for (int i = 0; i < colors.size() - 1; i++)
+            haveColors = hasColor(colors.get(i)).and(hasColor(colors.get(i + 1)));
+        assert haveColors != null;
+        Specification<Product> specification = haveColors.and(inCategory(categoryName)).and(priceBetween(from, to));
+        return descending
+                ? productRepository.findAll(specification, PageRequest.of(page, Constants.PRODUCTS_PER_PAGE, Sort.by(sortField).descending()))
+                : productRepository.findAll(specification, PageRequest.of(page, Constants.PRODUCTS_PER_PAGE, Sort.by(sortField).ascending()));
     }
 
     public Page<Product> getProductsInCart(int page, String sortField, boolean descending) {
@@ -43,11 +57,5 @@ public class ProductService {
         return descending
                 ? productRepository.findAllByOrders(orders, PageRequest.of(page, Constants.PRODUCTS_PER_PAGE, Sort.by(sortField).descending()))
                 : productRepository.findAllByOrders(orders, PageRequest.of(page, Constants.PRODUCTS_PER_PAGE, Sort.by(sortField).ascending()));
-    }
-
-    public Page<Product> getProductsFiltered(String categoryName, int page, boolean descending) {
-        Specification<Product> specification = hasColor(Color.BLACK).and(inCategory(categoryName)).and(priceBetween(0, 2000));
-        Page<Product> products = productRepository.findAll(specification, PageRequest.of(page, Constants.PRODUCTS_PER_PAGE, Sort.by("price").ascending()));
-        return products;
     }
 }

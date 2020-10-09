@@ -45,7 +45,7 @@ public class CategoryController {
                         @RequestParam(name = "page", defaultValue = "1") int page,
                         @RequestParam(name = "sortBy", defaultValue = "name") String sortBy,
                         @RequestParam(name = "descending", defaultValue = "false") boolean descending) {
-        Page<Product> women = productService.getProductsFiltered("women", page - 1, descending);
+        Page<Product> women = productService.getProductsPage("women", sortBy, descending, page - 1);
         int totalPages = women.getTotalPages();
         model.addAttribute("women", women);
         model.addAttribute("totalPages", totalPages);
