@@ -23,7 +23,7 @@ public abstract class Product implements Serializable {
     @Column(unique = true, nullable = false)
     private String picture;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 7)
     @Enumerated(EnumType.STRING)
     private Color color;
 
@@ -43,9 +43,6 @@ public abstract class Product implements Serializable {
     @JoinColumn(name = "category_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Category category;
-
-    @ManyToMany(mappedBy = "products")
-    List<Order> orders;
 
     @Basic(optional = false)
     @Column(name = "create_date", insertable = false, updatable = false, columnDefinition = "timestamp not null default current_timestamp")

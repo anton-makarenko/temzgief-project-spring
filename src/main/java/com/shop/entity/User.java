@@ -1,14 +1,11 @@
 package com.shop.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.shop.enumeration.Role;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 
@@ -19,12 +16,13 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
-    @Column(unique = true, nullable = false)
+    @Column(unique = true, nullable = false, length = 127)
     private String email;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 63)
     private String password;
 
+    @Column(nullable = false, length = 7)
     @Enumerated(EnumType.STRING)
     private Role role = Role.USER;
 

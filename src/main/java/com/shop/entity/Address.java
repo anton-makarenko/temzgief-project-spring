@@ -11,13 +11,13 @@ public class Address implements Serializable {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 63)
     private String country;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 63)
     private String city;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 7)
     private String building;
 
     @Column

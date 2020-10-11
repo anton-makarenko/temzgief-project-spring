@@ -15,10 +15,10 @@ public class Category implements Serializable {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false, unique = true, length = 31)
     private String name;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false, unique = true, length = 127)
     private String picture;
 
     @ManyToOne

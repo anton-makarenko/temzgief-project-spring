@@ -25,6 +25,7 @@ public class Order implements Serializable {
     @Column(nullable = false, columnDefinition = "double unsigned")
     private Double total = 0D;
 
+    @Column(nullable = false, length = 15)
     @Enumerated(EnumType.STRING)
     private Status status = Status.CREATED;
 

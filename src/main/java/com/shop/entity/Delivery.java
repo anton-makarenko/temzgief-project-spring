@@ -28,6 +28,7 @@ public class Delivery implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date endDate;
 
+    @Column(length = 1023)
     private String details;
 
     @Basic(optional = false)

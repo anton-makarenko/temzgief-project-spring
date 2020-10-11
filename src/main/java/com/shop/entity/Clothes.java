@@ -2,14 +2,12 @@ package com.shop.entity;
 
 import com.shop.enumeration.Size;
 
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "clothes")
 public class Clothes extends Product {
+    @Column(nullable = false, length = 3)
     @Enumerated(EnumType.STRING)
     private Size size;
 
