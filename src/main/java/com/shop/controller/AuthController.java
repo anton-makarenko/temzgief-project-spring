@@ -1,6 +1,7 @@
 package com.shop.controller;
 
 import com.shop.entity.User;
+import com.shop.service.SecurityService;
 import com.shop.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,10 +12,12 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/")
 public class AuthController {
     private UserService userService;
+    private SecurityService securityService;
 
     @Autowired
-    public AuthController(UserService userService) {
+    public AuthController(UserService userService, SecurityService securityService) {
         this.userService = userService;
+        this.securityService = securityService;
     }
 
     @GetMapping("/register")
@@ -27,6 +30,7 @@ public class AuthController {
     public String register(Model model, User user) {
         userService.saveUser(user);
         model.addAttribute("user", user);
+        securityService.autoLogin(user.getEmail(), user.getPassword());
         return "redirect:/all";
     }
 
