@@ -42,16 +42,14 @@ public class ProductService {
                 : clothesRepository.findAllByCategoryName(categoryName, PageRequest.of(page, Constants.PRODUCTS_PER_PAGE, Sort.by(sortField).ascending()));
     }
 
-    public Page<Clothes> getClothesPage(String categoryName, List<Color> colors, double from, double to, String sortField, boolean descending, int page) {
-        Specification<Clothes> haveColors = null;
-        if (colors == null || colors.size() == 0)
-            colors = Arrays.asList(Color.values());
-        else if (colors.size() == 1)
-            haveColors = hasColor(colors.get(0));
-        for (int i = 0; i < colors.size() - 1; i++)
-            haveColors = hasColor(colors.get(i)).or(hasColor(colors.get(i + 1)));
+    public Page<Clothes> getClothesPage(String categoryName, double min, double max, String sortField, boolean descending, int page, Color... colors) {
+        if (colors == null || colors.length == 0)
+            colors = Color.values();
+        Specification<Clothes> haveColors = hasColor(colors[0]);
+        for (int i = 1; i < colors.length; i++)
+            haveColors = haveColors.or(hasColor(colors[i]));
         assert haveColors != null;
-        Specification<Clothes> specification = haveColors.and(inCategory(categoryName)).and(priceBetween(from, to));
+        Specification<Clothes> specification = inCategory(categoryName).and(priceBetween(min, max)).and(haveColors);
         return descending
                 ? clothesRepository.findAll(specification, PageRequest.of(page, Constants.PRODUCTS_PER_PAGE, Sort.by(sortField).descending()))
                 : clothesRepository.findAll(specification, PageRequest.of(page, Constants.PRODUCTS_PER_PAGE, Sort.by(sortField).ascending()));

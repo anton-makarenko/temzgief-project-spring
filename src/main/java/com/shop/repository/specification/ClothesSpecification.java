@@ -7,6 +7,7 @@ import com.shop.enumeration.Color;
 import org.springframework.data.jpa.domain.Specification;
 
 import javax.persistence.criteria.*;
+import java.util.List;
 
 public final class ClothesSpecification {
     public static Specification<Clothes> hasColor(Color color) {

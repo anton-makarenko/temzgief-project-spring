@@ -3,7 +3,6 @@ package com.shop.controller;
 import com.shop.config.constant.Constants;
 import com.shop.entity.Category;
 import com.shop.entity.Clothes;
-import com.shop.entity.Product;
 import com.shop.enumeration.Color;
 import com.shop.service.CategoryService;
 import com.shop.service.ProductService;
@@ -50,10 +49,10 @@ public class CategoryController {
                                   @RequestParam(name = "page", defaultValue = "1") int page,
                                   @RequestParam(name = "sortBy", defaultValue = "name") String sortBy,
                                   @RequestParam(name = "descending", defaultValue = "false") boolean descending,
-                                  @RequestParam(name = "color", required = false) List<Color> colors,
                                   @RequestParam(name = "min", defaultValue = "0") double min,
-                                  @RequestParam(name = "max", defaultValue = Constants.MAX_CLOTHES) double max) {
-        Page<Clothes> products = productService.getClothesPage(category, sortBy, descending, page - 1);
+                                  @RequestParam(name = "max", defaultValue = Constants.MAX_CLOTHES) double max,
+                                  @RequestParam(name = "color", required = false) Color... colors) {
+        Page<Clothes> products = productService.getClothesPage(category, min, max, sortBy, descending, page - 1, colors);
         int totalPages = products.getTotalPages();
         model.addAttribute("products", products);
         model.addAttribute("totalPages", totalPages);
@@ -61,6 +60,8 @@ public class CategoryController {
         model.addAttribute("sortBy", sortBy);
         model.addAttribute("descending", descending);
         model.addAttribute("colors", colors);
+        model.addAttribute("min", min);
+        model.addAttribute("max", max);
         return category;
     }
 }

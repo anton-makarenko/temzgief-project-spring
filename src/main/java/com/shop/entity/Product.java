@@ -6,7 +6,9 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "products")
@@ -42,6 +44,9 @@ public abstract class Product implements Serializable {
     @JoinColumn(name = "category_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Category category;
+
+    @ManyToMany(mappedBy = "products")
+    private List<Order> orders = new ArrayList<>();
 
     @Basic(optional = false)
     @Column(name = "create_date", insertable = false, updatable = false, columnDefinition = "timestamp not null default current_timestamp")
