@@ -1,8 +1,7 @@
 package com.shop.controller;
 
 import com.shop.entity.Product;
-import com.shop.service.OrderService;
-import com.shop.service.ProductService;
+import com.shop.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -15,31 +14,29 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 @RequestMapping("/cart")
 public class CartController {
-    private OrderService orderService;
-    private ProductService productService;
+    private CartService cartService;
 
     @Autowired
-    public CartController(OrderService orderService, ProductService productService) {
-        this.orderService = orderService;
-        this.productService = productService;
+    public CartController(CartService cartService) {
+        this.cartService = cartService;
     }
 
     @GetMapping("/add/{productId}")
     public String add(@PathVariable long productId) {
-        orderService.addProductToCart(productId);
+        cartService.addProductToCart(productId);
         return "redirect:/cart";
     }
 
     @GetMapping("/remove/{productId}")
     public String remove(@PathVariable long productId) {
-        orderService.removeProductFromCart(productId);
+        cartService.removeProductFromCart(productId);
         return "redirect:/cart";
     }
 
     @GetMapping("/submit")
     public String submit() {
-        orderService.submitOrdersInCart();
-        return "redirect:/categories/all";
+        cartService.submitOrdersInCart();
+        return "redirect:/all";
     }
 
     @GetMapping
@@ -47,7 +44,7 @@ public class CartController {
                        @RequestParam(name = "page", defaultValue = "1") int page,
                        @RequestParam(name = "sortBy", defaultValue = "name") String sortBy,
                        @RequestParam(name = "descending", defaultValue = "false") boolean descending) {
-        Page<Product> products = productService.getClothesInCart(page - 1, sortBy, descending);
+        Page<Product> products = cartService.getClothesInCart(page - 1, sortBy, descending);
         model.addAttribute("productsInCart", products);
         model.addAttribute("products", products);
         int totalPages = products.getTotalPages();

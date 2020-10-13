@@ -7,7 +7,6 @@ import com.shop.enumeration.Color;
 import org.springframework.data.jpa.domain.Specification;
 
 import javax.persistence.criteria.*;
-import java.util.List;
 
 public final class ClothesSpecification {
     public static Specification<Clothes> hasColor(Color color) {
@@ -19,9 +18,9 @@ public final class ClothesSpecification {
     }
 
     public static Specification<Clothes> inCategory(String categoryName) {
-        return (root, criteriaQuery, criteriaBuilder) -> {
-            Join<Product, Category> category = root.join("category");
-            return criteriaBuilder.equal(category.get("name"), categoryName);
+        return (r, cq, cb) -> {
+            Join<Product, Category> category = r.join("category");
+            return cb.equal(category.get("name"), categoryName);
         };
     }
 
