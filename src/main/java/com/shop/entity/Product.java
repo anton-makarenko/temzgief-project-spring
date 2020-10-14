@@ -6,6 +6,7 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -34,8 +35,8 @@ public abstract class Product implements Serializable {
 
     private String description;
 
-    @Column(nullable = false, columnDefinition = "double unsigned")
-    private Double price;
+    @Column(nullable = false, columnDefinition = "decimal(10, 2) unsigned")
+    private BigDecimal price;
 
     @Column(nullable = false, columnDefinition = "int(11) unsigned")
     private Integer amount;
@@ -106,12 +107,20 @@ public abstract class Product implements Serializable {
         this.description = description;
     }
 
-    public Double getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(Double price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
+    }
+
+    public List<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
     }
 
     public Integer getAmount() {

@@ -6,6 +6,7 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -22,8 +23,8 @@ public class Order implements Serializable {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private User user;
 
-    @Column(nullable = false, columnDefinition = "double unsigned")
-    private Double total = 0D;
+    @Column(nullable = false, columnDefinition = "decimal(10, 2) unsigned")
+    private BigDecimal total = new BigDecimal(0);
 
     @Column(nullable = false, length = 15)
     @Enumerated(EnumType.STRING)
@@ -59,11 +60,11 @@ public class Order implements Serializable {
         this.user = user;
     }
 
-    public Double getTotal() {
+    public BigDecimal getTotal() {
         return total;
     }
 
-    public void setTotal(Double total) {
+    public void setTotal(BigDecimal total) {
         this.total = total;
     }
 

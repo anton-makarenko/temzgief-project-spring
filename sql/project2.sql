@@ -91,7 +91,7 @@ DROP TABLE IF EXISTS `shopdb2`.`orders` ;
 CREATE TABLE IF NOT EXISTS `shopdb2`.`orders` (
   `id` BIGINT(10) NOT NULL,
   `user_id` BIGINT(10) NOT NULL,
-  `total` DOUBLE UNSIGNED NOT NULL DEFAULT '0',
+  `total` DECIMAL(10,2) UNSIGNED NOT NULL DEFAULT 0,
   `status` VARCHAR(15) NOT NULL DEFAULT 'REGISTERED',
   `create_date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `last_update` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -148,7 +148,7 @@ CREATE TABLE IF NOT EXISTS `shopdb2`.`products` (
   `color` VARCHAR(15) NOT NULL,
   `manufacture_date` DATE NOT NULL,
   `description` VARCHAR(4096) NULL DEFAULT NULL,
-  `price` DOUBLE UNSIGNED NOT NULL,
+  `price` DECIMAL(10,2) UNSIGNED NOT NULL,
   `amount` INT(10) UNSIGNED NOT NULL DEFAULT '0',
   `category_id` BIGINT(10) NOT NULL,
   `create_date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -254,12 +254,12 @@ SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `shopdb2`;
-INSERT INTO `shopdb2`.`categories` (`id`, `name`, `picture`, `parent_id`, `create_date`, `last_update`) VALUES (1, 'cars', 'images/cars/main.jpg', NULL, DEFAULT, DEFAULT);
-INSERT INTO `shopdb2`.`categories` (`id`, `name`, `picture`, `parent_id`, `create_date`, `last_update`) VALUES (2, 'clothes', 'images/clothes/main.png', NULL, DEFAULT, DEFAULT);
-INSERT INTO `shopdb2`.`categories` (`id`, `name`, `picture`, `parent_id`, `create_date`, `last_update`) VALUES (3, 'big', 'images/cars/big.png', 1, DEFAULT, DEFAULT);
-INSERT INTO `shopdb2`.`categories` (`id`, `name`, `picture`, `parent_id`, `create_date`, `last_update`) VALUES (4, 'small', 'images/cars/small.png', 1, DEFAULT, DEFAULT);
-INSERT INTO `shopdb2`.`categories` (`id`, `name`, `picture`, `parent_id`, `create_date`, `last_update`) VALUES (5, 'women', 'images/clothes/women.jpg', 2, DEFAULT, DEFAULT);
-INSERT INTO `shopdb2`.`categories` (`id`, `name`, `picture`, `parent_id`, `create_date`, `last_update`) VALUES (6, 'men', 'images/clothes/men.jpg', 2, DEFAULT, DEFAULT);
+INSERT INTO `shopdb2`.`categories` (`id`, `name`, `picture`, `parent_id`, `create_date`, `last_update`) VALUES (1, 'cars', '/images/cars/main.jpg', NULL, DEFAULT, DEFAULT);
+INSERT INTO `shopdb2`.`categories` (`id`, `name`, `picture`, `parent_id`, `create_date`, `last_update`) VALUES (2, 'clothes', '/images/clothes/main.png', NULL, DEFAULT, DEFAULT);
+INSERT INTO `shopdb2`.`categories` (`id`, `name`, `picture`, `parent_id`, `create_date`, `last_update`) VALUES (3, 'big', '/images/cars/big.png', 1, DEFAULT, DEFAULT);
+INSERT INTO `shopdb2`.`categories` (`id`, `name`, `picture`, `parent_id`, `create_date`, `last_update`) VALUES (4, 'small', '/images/cars/small.png', 1, DEFAULT, DEFAULT);
+INSERT INTO `shopdb2`.`categories` (`id`, `name`, `picture`, `parent_id`, `create_date`, `last_update`) VALUES (5, 'women', '/images/clothes/women.jpg', 2, DEFAULT, DEFAULT);
+INSERT INTO `shopdb2`.`categories` (`id`, `name`, `picture`, `parent_id`, `create_date`, `last_update`) VALUES (6, 'men', '/images/clothes/men.jpg', 2, DEFAULT, DEFAULT);
 
 COMMIT;
 
