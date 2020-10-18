@@ -7,7 +7,7 @@
 </head>
 <body>
 <div class="container my-2">
-    <form method="post" action="/admin/orders">
+    <form method="get" th:action="@{/admin/orders}">
         <div class="form-group col-md-6">
             <input type="email" class="form-control" name="email" placeholder="Email"/>
         </div>
@@ -29,27 +29,16 @@
         </tr>
         </tbody>
     </table>
-</div>
 
-<div th:if="${totalPages > 1}">
-    <div class="row col-sm-10">
-        <div class="col-sm-1">
+    <div th:if="${totalPages > 1}">
+        <div class="row col-sm-10">
+            <div class="col-sm-1">
                     <span th:each="i: ${#numbers.sequence(1, totalPages)}">
                         <a th:if="${currentPage != i}"
-                           th:href="@{'?page=' + ${i}}">[[${i}]]</a>
+                           th:href="@{'?page=' + ${i} + '&email=' + ${email}}">[[${i}]]</a>
                         <span th:unless="${currentPage != i}">[[${i}]]</span> &nbsp; &nbsp;
                     </span>
-        </div>
-    </div>
-</div>
-<div th:if="${totalPages > 1}">
-    <div class="row col-sm-10">
-        <div class="col-sm-1">
-                    <span th:each="i: ${#numbers.sequence(1, totalPages)}">
-                        <a th:if="${currentPage != i}"
-                           th:href="@{'?page=' + ${i}}">[[${i}]]</a>
-                        <span th:unless="${currentPage != i}">[[${i}]]</span> &nbsp; &nbsp;
-                    </span>
+            </div>
         </div>
     </div>
 </div>

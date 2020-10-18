@@ -22,25 +22,17 @@ public class AdminController {
     @GetMapping("/orders")
     public String orders(Model model,
                          @RequestParam(name = "page", defaultValue = "1") int page,
-                         @RequestParam(name = "status", required = false) Status... statuses) {
-        Page<Order> orders = adminService.getOrdersPage(page - 1, statuses);
+                         @RequestParam(required = false) String email) {
+        Page<Order> orders;
+        if (email == null || email.equals("null"))
+            orders = adminService.getOrdersPage(page - 1, Status.REGISTERED, Status.PAID, Status.CANCELLED);
+        else
+            orders = adminService.getOrdersPage(email, page - 1, Status.values());
         int totalPages = orders.getTotalPages();
         model.addAttribute("totalPages", totalPages);
         model.addAttribute("orders", orders);
         model.addAttribute("currentPage", page);
-        return "orders";
-    }
-
-    @PostMapping("/orders")
-    public String orders(Model model,
-                         @RequestParam("email") String email,
-                         @RequestParam(name = "page", defaultValue = "1") int page,
-                         @RequestParam(name = "status", required = false) Status... statuses) {
-        Page<Order> orders = adminService.getOrdersPage(email, page - 1, statuses);
-        int totalPages = orders.getTotalPages();
-        model.addAttribute("totalPages", totalPages);
-        model.addAttribute("orders", orders);
-        model.addAttribute("currentPage", page);
+        model.addAttribute("email", email);
         return "orders";
     }
 }
