@@ -37,7 +37,7 @@ public class CartService {
         User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Order order;
         Optional<Order> optionalOrder;
-        if ((optionalOrder = orderRepository.getByUserIdAndStatus(currentUser.getId(), Status.CREATED)).isPresent())
+        if ((optionalOrder = orderRepository.findByUserIdAndStatus(currentUser.getId(), Status.CREATED)).isPresent())
             order = optionalOrder.get();
         else {
             order = new Order();
@@ -52,7 +52,7 @@ public class CartService {
         User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Order order;
         Optional<Order> optionalOrder;
-        if ((optionalOrder = orderRepository.getByUserIdAndStatus(currentUser.getId(), Status.CREATED)).isPresent()) {
+        if ((optionalOrder = orderRepository.findByUserIdAndStatus(currentUser.getId(), Status.CREATED)).isPresent()) {
             order = optionalOrder.get();
             order.getProducts().remove(clothesRepository.findById(productId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, Constants.NO_PRODUCT)));
             orderRepository.save(order);

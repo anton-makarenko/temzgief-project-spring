@@ -2,6 +2,7 @@ package com.shop.enumeration;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public enum Status {
@@ -10,11 +11,11 @@ public enum Status {
     public List<Status> allowedTransactions() {
         switch (this) {
             case REGISTERED:
-                return new ArrayList<>(Arrays.asList(PAID, CANCELLED));
+                return Collections.unmodifiableList(Arrays.asList(PAID, CANCELLED));
             case CREATED:
-                return new ArrayList<>(Arrays.asList(REGISTERED));
+                return Collections.singletonList(REGISTERED);
             default:
-                return new ArrayList<>(0);
+                return Collections.emptyList();
         }
     }
 }

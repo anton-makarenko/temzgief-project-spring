@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface OrderRepository extends JpaRepository<Order, Long>, JpaSpecificationExecutor<Order> {
-    Optional<Order> getByUserIdAndStatus(long id, Status status);
+    Optional<Order> findByUserIdAndStatus(long id, Status status);
     List<Order> findAllByUserIdAndStatus(long id, Status status);
     Page<Order> findAllByUserEmail(String email, Pageable pageable);
     Page<Order> findAll(Pageable pageable);
