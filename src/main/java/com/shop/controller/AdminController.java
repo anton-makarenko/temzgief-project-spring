@@ -2,6 +2,7 @@ package com.shop.controller;
 
 import com.shop.entity.Order;
 import com.shop.entity.User;
+import com.shop.enumeration.Role;
 import com.shop.enumeration.Status;
 import com.shop.service.AdminService;
 import com.shop.service.UserService;
@@ -69,5 +70,17 @@ public class AdminController {
             model.addAttribute("currentPage", page);
         }
         return "users";
+    }
+
+    @GetMapping("/users/block/{id}")
+    public String blockUser(@PathVariable long id) {
+        userService.changeRole(id, Role.BLOCKED);
+        return "redirect:/admin/users";
+    }
+
+    @GetMapping("/users/unblock/{id}")
+    public String unblockUser(@PathVariable long id) {
+        userService.changeRole(id, Role.USER);
+        return "redirect:/admin/users";
     }
 }

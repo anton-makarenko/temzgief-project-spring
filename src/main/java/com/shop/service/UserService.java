@@ -2,6 +2,7 @@ package com.shop.service;
 
 import com.shop.config.constant.Constants;
 import com.shop.entity.User;
+import com.shop.enumeration.Role;
 import com.shop.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -37,5 +38,11 @@ public class UserService implements UserDetailsService {
 
     public Optional<User> getUserOptionalByEmail(String email) {
         return userRepository.findByEmail(email);
+    }
+
+    public void changeRole(long id, Role newRole) {
+        User user = userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("No such user"));
+        user.setRole(newRole);
+        userRepository.save(user);
     }
 }
