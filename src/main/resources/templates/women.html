@@ -18,9 +18,6 @@
         <input type="radio" name="descending" value="false" th:text="#{product.ascending}" th:checked="${!descending}"/><br>
         <input type="radio" name="descending" value="true" th:text="#{product.descending}"
                th:checked="${descending}"/><br>
-        <input type="checkbox" name="color" value="black" th:text="#{product.color.black}"/><br>
-        <input type="checkbox" name="color" value="blue" th:text="#{product.color.blue}"/><br>
-        <input type="checkbox" name="color" value="white" th:text="#{product.color.white}"/><br>
         <button type="submit" class="btn btn-primary" th:text="#{product.sort}"></button>
     </form>
 
