@@ -31,8 +31,9 @@ public abstract class Product implements Serializable {
 
     @Column(name = "manufacture_date", nullable = false)
     @Temporal(TemporalType.DATE)
-    private Date manufactureDate;
+    private Date manufactureDate = new Date();
 
+    @Column(length = 4095)
     private String description;
 
     @Column(nullable = false, columnDefinition = "decimal(10, 2) unsigned")

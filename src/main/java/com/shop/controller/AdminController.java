@@ -1,10 +1,13 @@
 package com.shop.controller;
 
+import com.shop.entity.Clothes;
 import com.shop.entity.Order;
 import com.shop.entity.User;
 import com.shop.enumeration.Role;
+import com.shop.enumeration.Size;
 import com.shop.enumeration.Status;
 import com.shop.service.AdminService;
+import com.shop.service.ProductService;
 import com.shop.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -20,11 +23,13 @@ import java.util.Optional;
 public class AdminController {
     private AdminService adminService;
     private UserService userService;
+    private ProductService productService;
 
     @Autowired
-    public AdminController(AdminService adminService, UserService userService) {
+    public AdminController(AdminService adminService, UserService userService, ProductService productService) {
         this.adminService = adminService;
         this.userService = userService;
+        this.productService = productService;
     }
 
     @GetMapping("/orders")
@@ -82,5 +87,18 @@ public class AdminController {
     public String unblockUser(@PathVariable long id) {
         userService.changeRole(id, Role.USER);
         return "redirect:/admin/users";
+    }
+
+    @GetMapping("/add/clothes")
+    public String add(Model model) {
+        model.addAttribute("clothes", new Clothes());
+        return "addProduct";
+    }
+
+    @PostMapping("/add/clothes")
+    public String addClothes(Model model, Clothes clothes) {
+        model.addAttribute("clothes", clothes);
+        productService.addClothes(clothes);
+        return "redirect:/clothes/" + clothes.getCategory().getName();
     }
 }
