@@ -28,9 +28,10 @@ public class AuthController {
 
     @PostMapping("/register")
     public String register(Model model, User user) {
+        String unHashedPassword = user.getPassword();
         userService.saveUser(user);
         model.addAttribute("user", user);
-        securityService.autoLogin(user.getEmail(), user.getPassword());
+        securityService.autoLogin(user.getEmail(), unHashedPassword);
         return "redirect:/all";
     }
 
