@@ -9,16 +9,26 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.logout.LogoutHandler;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
+import org.springframework.security.web.authentication.logout.SimpleUrlLogoutSuccessHandler;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.Optional;
 
 @Service
-public class UserService implements UserDetailsService {
+public class UserService extends SimpleUrlLogoutSuccessHandler implements UserDetailsService, LogoutSuccessHandler {
     private static final Logger logger = LogManager.getLogger(UserService.class);
 
     private UserRepository userRepository;
@@ -40,10 +50,15 @@ public class UserService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        return userRepository.findByEmail(s).orElseThrow(() -> {
-            logger.info("Failed login attempt for user {}", s);
-            return new UsernameNotFoundException(Constants.WRONG_EMAIL_OR_PASSWORD);
-        });
+        Optional<User> optionalUser;
+        if ((optionalUser = userRepository.findByEmail(s)).isPresent()) {
+            User user = optionalUser.get();
+            if (user.getAuthorities().contains(AuthorityUtils.createAuthorityList(Role.ADMIN.name()).get(0)))
+                logger.info("Admin {} has logged in", user.getEmail());
+            return user;
+        }
+        else
+            throw new UsernameNotFoundException(Constants.WRONG_EMAIL_OR_PASSWORD);
     }
 
     public Page<User> getAllUsers(int page) {
@@ -61,5 +76,12 @@ public class UserService implements UserDetailsService {
         });
         user.setRole(newRole);
         userRepository.save(user);
+    }
+
+    @Override
+    public void onLogoutSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException, ServletException {
+        if (authentication.getAuthorities().contains(AuthorityUtils.createAuthorityList(Role.ADMIN.name()).get(0)))
+            logger.info("Admin {} has logged out", authentication.getName());
+        super.onLogoutSuccess(httpServletRequest, httpServletResponse, authentication);
     }
 }

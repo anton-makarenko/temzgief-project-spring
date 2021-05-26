@@ -38,12 +38,9 @@ public class CustomSecurityConfigurer extends WebSecurityConfigurerAdapter {
                 .antMatchers("/cart/**").hasAnyAuthority("USER", "ADMIN")
                 .and()
                 .formLogin()
-                .loginPage("/login").defaultSuccessUrl("/all").usernameParameter("email").permitAll()
+                .loginPage("/login").defaultSuccessUrl("/").usernameParameter("email").permitAll()
                 .and()
-                .logout()
-                .invalidateHttpSession(true)
-                .clearAuthentication(true)
-                .permitAll();
+                .logout().logoutUrl("/logout").logoutSuccessUrl("/").logoutSuccessHandler(userService).invalidateHttpSession(true).clearAuthentication(true).permitAll();
     }
 
     @Bean
