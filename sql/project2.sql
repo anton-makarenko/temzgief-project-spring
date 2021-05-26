@@ -223,10 +223,10 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `shopdb2`;
-INSERT INTO `shopdb2`.`products` (`id`, `name`, `picture`, `color`, `manufacture_date`, `description`, `price`, `amount`, `category_id`, `create_date`, `last_update`) VALUES (1, 'Mango 77055933-TO', 'images/clothes/Mango77055933-TO.jpg', 'BLUE', '2019-02-02', NULL, 499.99, 100, 5, DEFAULT, DEFAULT);
-INSERT INTO `shopdb2`.`products` (`id`, `name`, `picture`, `color`, `manufacture_date`, `description`, `price`, `amount`, `category_id`, `create_date`, `last_update`) VALUES (2, 'Mango 77072888-08', 'images/clothes/Mango77072888-08.jpg', 'WHITE', '2018-01-01', NULL, 1199.49, 150, 5, DEFAULT, DEFAULT);
-INSERT INTO `shopdb2`.`products` (`id`, `name`, `picture`, `color`, `manufacture_date`, `description`, `price`, `amount`, `category_id`, `create_date`, `last_update`) VALUES (3, 'Tom Tailor 19243430107', 'images/clothes/tom_tailor19243430107.jpg', 'WHITE', '2020-03-05', NULL, 899.29, 120, 5, DEFAULT, DEFAULT);
-INSERT INTO `shopdb2`.`products` (`id`, `name`, `picture`, `color`, `manufacture_date`, `description`, `price`, `amount`, `category_id`, `create_date`, `last_update`) VALUES (4, 'Leo Pride 2000660001481', 'images/clothes/leo_pride_2000660001481.jpg', 'BLACK', '2017-08-01', NULL, 1999.00, 50, 5, DEFAULT, DEFAULT);
+INSERT INTO `shopdb2`.`products` (`id`, `name`, `picture`, `color`, `manufacture_date`, `description`, `price`, `amount`, `category_id`, `create_date`, `last_update`) VALUES (1, 'Mango 77055933-TO', 'images/clothes/Mango77055933-TO.jpg', 'BLUE', '2019-02-02', NULL, 499.99, 100, 3, DEFAULT, DEFAULT);
+INSERT INTO `shopdb2`.`products` (`id`, `name`, `picture`, `color`, `manufacture_date`, `description`, `price`, `amount`, `category_id`, `create_date`, `last_update`) VALUES (2, 'Mango 77072888-08', 'images/clothes/Mango77072888-08.jpg', 'WHITE', '2018-01-01', NULL, 1199.49, 150, 3, DEFAULT, DEFAULT);
+INSERT INTO `shopdb2`.`products` (`id`, `name`, `picture`, `color`, `manufacture_date`, `description`, `price`, `amount`, `category_id`, `create_date`, `last_update`) VALUES (3, 'Tom Tailor 19243430107', 'images/clothes/tom_tailor19243430107.jpg', 'WHITE', '2020-03-05', NULL, 899.29, 120, 3, DEFAULT, DEFAULT);
+INSERT INTO `shopdb2`.`products` (`id`, `name`, `picture`, `color`, `manufacture_date`, `description`, `price`, `amount`, `category_id`, `create_date`, `last_update`) VALUES (4, 'Leo Pride 2000660001481', 'images/clothes/leo_pride_2000660001481.jpg', 'BLACK', '2017-08-01', NULL, 1999.00, 50, 3, DEFAULT, DEFAULT);
 
 COMMIT;
 
