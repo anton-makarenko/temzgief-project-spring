@@ -7,12 +7,18 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,N
 -- -----------------------------------------------------
 -- Schema shopdb2
 -- -----------------------------------------------------
-DROP SCHEMA IF EXISTS `shopdb2` ;
+DROP USER IF EXISTS `shopdb2`@`localhost` ;
 
+DROP SCHEMA IF EXISTS `shopdb2` ;
 -- -----------------------------------------------------
 -- Schema shopdb2
 -- -----------------------------------------------------
 CREATE SCHEMA IF NOT EXISTS `shopdb2` DEFAULT CHARACTER SET utf8 COLLATE utf8_bin ;
+
+CREATE USER IF NOT EXISTS `shopdb2`@`localhost` IDENTIFIED BY 'Super1_Secret2_Password3_db' ;
+
+GRANT ALL PRIVILEGES ON `shopdb2`.* TO `shopdb2`@`localhost` ;
+
 USE `shopdb2` ;
 
 -- -----------------------------------------------------
