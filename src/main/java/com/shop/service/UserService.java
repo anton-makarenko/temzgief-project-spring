@@ -4,6 +4,8 @@ import com.shop.config.constant.Constants;
 import com.shop.entity.User;
 import com.shop.enumeration.Role;
 import com.shop.repository.UserRepository;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -17,6 +19,8 @@ import java.util.Optional;
 
 @Service
 public class UserService implements UserDetailsService {
+    private static final Logger logger = LogManager.getLogger(UserService.class);
+
     private UserRepository userRepository;
     private PasswordEncoder passwordEncoder;
 
@@ -31,11 +35,15 @@ public class UserService implements UserDetailsService {
         String encodedPassword = passwordEncoder.encode(unEncodedPassword);
         user.setPassword(encodedPassword);
         userRepository.save(user);
+        logger.info("User {} has been registered", user.getEmail());
     }
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        return userRepository.findByEmail(s).orElseThrow(() -> new UsernameNotFoundException(Constants.WRONG_EMAIL_OR_PASSWORD));
+        return userRepository.findByEmail(s).orElseThrow(() -> {
+            logger.info("Failed login attempt for user {}", s);
+            return new UsernameNotFoundException(Constants.WRONG_EMAIL_OR_PASSWORD);
+        });
     }
 
     public Page<User> getAllUsers(int page) {
@@ -47,7 +55,10 @@ public class UserService implements UserDetailsService {
     }
 
     public void changeRole(long id, Role newRole) {
-        User user = userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("No such user"));
+        User user = userRepository.findById(id).orElseThrow(() -> {
+            logger.error("Trying to set new role for user that does not exist");
+            return new IllegalArgumentException("No such user");
+        });
         user.setRole(newRole);
         userRepository.save(user);
     }
