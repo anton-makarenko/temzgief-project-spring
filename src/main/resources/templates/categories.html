@@ -8,7 +8,7 @@
 <div th:if="${not categories.isEmpty()}">
     <table class="table">
         <tr th:each="category: ${categories}">
-            <td><img th:src="${category.picture}" alt="picture" height="200"></td>
+            <td><img th:src="${'/' + category.picture}" alt="picture" height="200"></td>
             <td><a th:href='${"/" + category.name}' th:text="#{'category.' + ${category.name}}"></a></td>
         </tr>
     </table>

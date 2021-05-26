@@ -35,7 +35,7 @@
         </thead>
         <tbody>
         <tr th:each="product: ${products}">
-            <td><img th:src="${product.picture}" alt="picture" height="200"></td>
+            <td><img th:src="${'/' + product.picture}" alt="picture" height="200"></td>
             <td th:text="${product.name}"></td>
             <td th:text="${product.color}"></td>
             <td>
