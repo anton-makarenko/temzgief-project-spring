@@ -6,6 +6,8 @@ import com.shop.entity.Clothes;
 import com.shop.enumeration.Color;
 import com.shop.repository.CategoryRepository;
 import com.shop.repository.ClothesRepository;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -19,6 +21,8 @@ import static com.shop.repository.specification.ClothesSpecification.*;
 
 @Service
 public class ProductService {
+    private static final Logger logger = LogManager.getLogger(ProductService.class);
+
     private ClothesRepository clothesRepository;
     private CategoryRepository categoryRepository;
 
@@ -26,12 +30,6 @@ public class ProductService {
     public ProductService(ClothesRepository clothesRepository, CategoryRepository categoryRepository) {
         this.clothesRepository = clothesRepository;
         this.categoryRepository = categoryRepository;
-    }
-
-    public Page<Clothes> getClothesPage(String categoryName, String sortField, boolean descending, int page) {
-        return descending
-                ? clothesRepository.findAllByCategoryName(categoryName, PageRequest.of(page, Constants.PRODUCTS_PER_PAGE, Sort.by(sortField).descending()))
-                : clothesRepository.findAllByCategoryName(categoryName, PageRequest.of(page, Constants.PRODUCTS_PER_PAGE, Sort.by(sortField).ascending()));
     }
 
     public Page<Clothes> getClothesPage(String categoryName, double min, double max, String sortField, boolean descending, int page, Color... colors) {
@@ -50,8 +48,10 @@ public class ProductService {
 
     public void addClothes(Clothes clothes) {
         List<Category> categories = categoryRepository.findAllByParentCategoryName("clothes");
-        if (!categories.contains(clothes.getCategory()))
+        if (!categories.contains(clothes.getCategory())) {
+            logger.error("Trying to add clothes to the category '{}' that does not exist", clothes.getCategory().getName());
             throw new IllegalArgumentException("No such category for clothes");
+        }
         clothes.setCategory(categoryRepository.findByName(clothes.getCategory().getName()).orElse(clothes.getCategory()));
         clothesRepository.save(clothes);
     }
