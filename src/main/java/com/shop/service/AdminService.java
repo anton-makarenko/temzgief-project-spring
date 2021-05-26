@@ -52,5 +52,6 @@ public class AdminService {
         }
         order.setStatus(newStatus);
         orderRepository.save(order);
+        logger.info("Status of {} has been changed from {} to {}", order.getProducts(), order.getStatus(), newStatus);
     }
 }
