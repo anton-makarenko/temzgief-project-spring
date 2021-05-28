@@ -36,8 +36,7 @@ public class CustomSecurityConfigurer extends WebSecurityConfigurerAdapter {
                 .antMatchers("/categories/**").permitAll()
                 .antMatchers("/cart/**").hasAnyAuthority("USER", "ADMIN")
                 .and()
-                .formLogin()
-                .loginPage("/login").defaultSuccessUrl("/").usernameParameter("email").permitAll()
+                .formLogin().loginPage("/login").defaultSuccessUrl("/").usernameParameter("email").permitAll()
                 .and()
                 .logout().logoutUrl("/logout").logoutSuccessUrl("/").logoutSuccessHandler(userService).invalidateHttpSession(true).clearAuthentication(true).permitAll();
     }
