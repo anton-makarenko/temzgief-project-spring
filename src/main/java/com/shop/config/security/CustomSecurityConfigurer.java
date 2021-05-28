@@ -31,14 +31,18 @@ public class CustomSecurityConfigurer extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
+                .csrf().ignoringAntMatchers("/login", "/logout")
+                .and()
                 .authorizeRequests()
-                .antMatchers("/admin/**").hasAuthority("ADMIN")
                 .antMatchers("/categories/**").permitAll()
+                .antMatchers("/admin/**").hasAuthority("ADMIN")
                 .antMatchers("/cart/**").hasAnyAuthority("USER", "ADMIN")
+                .antMatchers("login").anonymous()
+                .antMatchers("logout").authenticated()
                 .and()
-                .formLogin().loginPage("/login").defaultSuccessUrl("/").usernameParameter("email").permitAll()
+                .formLogin().loginPage("/login").defaultSuccessUrl("/").usernameParameter("email")
                 .and()
-                .logout().logoutUrl("/logout").logoutSuccessUrl("/").logoutSuccessHandler(userService).invalidateHttpSession(true).clearAuthentication(true).permitAll();
+                .logout().logoutUrl("/logout").logoutSuccessUrl("/").logoutSuccessHandler(userService).invalidateHttpSession(true).clearAuthentication(true);
     }
 
     @Bean

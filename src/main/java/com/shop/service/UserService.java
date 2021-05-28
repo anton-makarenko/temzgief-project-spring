@@ -55,6 +55,8 @@ public class UserService extends SimpleUrlLogoutSuccessHandler implements UserDe
             User user = optionalUser.get();
             if (user.getAuthorities().contains(AuthorityUtils.createAuthorityList(Role.ADMIN.name()).get(0)))
                 logger.info("Admin {} has logged in", user.getEmail());
+            else
+                logger.info("User {} has logged in", user.getEmail());
             return user;
         }
         else
@@ -80,8 +82,12 @@ public class UserService extends SimpleUrlLogoutSuccessHandler implements UserDe
 
     @Override
     public void onLogoutSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException, ServletException {
+        if (authentication == null)
+            return;
         if (authentication.getAuthorities().contains(AuthorityUtils.createAuthorityList(Role.ADMIN.name()).get(0)))
             logger.info("Admin {} has logged out", authentication.getName());
+        else
+            logger.info("User {} has logged out", authentication.getName());
         super.onLogoutSuccess(httpServletRequest, httpServletResponse, authentication);
     }
 }
