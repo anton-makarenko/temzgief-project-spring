@@ -1,0 +1,15 @@
+version: "3.9"
+services:
+  database:
+    image: "antonmakarenko/shopdb2-data:latest"
+    ports:
+      - "3306:3306"
+    command:
+      - "--secure-file-priv=/var/lib/mysql"
+    volumes:
+      - "E:/shopdb2/config:/etc/mysql:/etc/mysql"
+      - "E:/shopdb2/data:/etc/mysql:/var/lib/mysql"
+  web:
+    image: "antonmakarenko/shopdb2-java:latest"
+    ports:
+      - "8443:8443"
