@@ -14,8 +14,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.ConnectableFlux;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -62,30 +66,32 @@ public class AdminController {
                         @RequestParam(name = "page", defaultValue = "1") int page,
                         @RequestParam(name = "email", required = false) String email) {
         if (email != null) {
-            model.addAttribute("totalPages", 1);
-            Optional<User> userOptional = userService.getUserOptionalByEmail(email);
-            model.addAttribute("users", userOptional.isPresent() ? Collections.singleton(userOptional.get()) : Collections.emptyList());
-            model.addAttribute("currentPage", 1);
+            userService.getUserOptionalByEmail(email).subscribe(user -> {
+                model.addAttribute("totalPages", 1);
+                model.addAttribute("users", Collections.singleton(user));
+                model.addAttribute("currentPage", 1);
+            });
         }
         else {
-            Page<User> users = userService.getAllUsers(page - 1);
-            int totalPages = users.getTotalPages();
-            model.addAttribute("totalPages", totalPages);
-            model.addAttribute("users", users);
-            model.addAttribute("currentPage", page);
+            userService.getAllUsers(page - 1).collectList().subscribe(users -> {
+                int totalPages = users.size();
+                model.addAttribute("totalPages", totalPages);
+                model.addAttribute("users", users);
+                model.addAttribute("currentPage", page);
+            });
         }
         return "users";
     }
 
     @GetMapping("/users/block/{id}")
     public String blockUser(@PathVariable long id) {
-        userService.changeRole(id, Role.BLOCKED);
+        userService.changeRole(id, Role.BLOCKED).subscribe();
         return "redirect:/admin/users";
     }
 
     @GetMapping("/users/unblock/{id}")
     public String unblockUser(@PathVariable long id) {
-        userService.changeRole(id, Role.USER);
+        userService.changeRole(id, Role.USER).subscribe();
         return "redirect:/admin/users";
     }
 
