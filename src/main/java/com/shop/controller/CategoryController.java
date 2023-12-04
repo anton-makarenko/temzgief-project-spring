@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import reactor.core.publisher.Flux;
 
 import java.util.List;
 
@@ -31,15 +32,17 @@ public class CategoryController {
 
     @GetMapping({"/all", "/"})
     public String allCategories(Model model) {
-        List<Category> categories = categoryService.getAllRoot();
-        model.addAttribute("categories", categories);
+        categoryService.getAllRoot().collectList().subscribe(categories -> {
+            model.addAttribute("categories", categories);
+        });
         return "categories";
     }
 
     @GetMapping("/clothes")
     public String clothes(Model model) {
-        List<Category> category = categoryService.getAllByParent("clothes");
-        model.addAttribute("category", category);
+        categoryService.getAllByParent("clothes").collectList().subscribe(categories -> {
+            model.addAttribute("category", categories);
+        });
         return "clothes";
     }
 

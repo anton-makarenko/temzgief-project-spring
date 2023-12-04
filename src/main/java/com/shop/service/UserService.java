@@ -35,12 +35,12 @@ public class UserService implements ReactiveUserDetailsService {
     }
 
     public Mono<User> getUserOptionalByEmail(String email) {
-        return userRepository.findByEmail(email);
+        return userRepository.findByEmail(email).mapNotNull(user -> user);
     }
 
     public Mono<User> changeRole(long id, Role newRole) {
         return userRepository.findById(id)
-                .map(u -> {
+                .mapNotNull(u -> {
                     u.setRole(newRole);
                     return u;
                 })

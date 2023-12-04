@@ -4,6 +4,7 @@ import com.shop.entity.Category;
 import com.shop.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
 
 import java.util.List;
 
@@ -16,11 +17,11 @@ public class CategoryService {
         this.categoryRepository = categoryRepository;
     }
 
-    public List<Category> getAllRoot() {
+    public Flux<Category> getAllRoot() {
         return categoryRepository.findAllByParentCategoryIsNull();
     }
 
-    public List<Category> getAllByParent(String name) {
+    public Flux<Category> getAllByParent(String name) {
         return categoryRepository.findAllByParentCategoryName(name);
     }
 }
