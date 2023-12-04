@@ -19,10 +19,11 @@ public class SecurityService {
     }
 
     public void autoLogin(String email, String password) {
-        UserDetails userDetails = userService.loadUserByUsername(email);
-        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(userDetails, password, userDetails.getAuthorities());
-        authenticationManager.authenticate(token);
-        if (token.isAuthenticated())
-            SecurityContextHolder.getContext().setAuthentication(token);
+        userService.findByUsername(email).subscribe(userDetails -> {
+            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(userDetails, password, userDetails.getAuthorities());
+            authenticationManager.authenticate(token);
+            if (token.isAuthenticated())
+                SecurityContextHolder.getContext().setAuthentication(token);
+        });
     }
 }

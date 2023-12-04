@@ -49,6 +49,9 @@ public class UserService implements ReactiveUserDetailsService {
 
     @Override
     public Mono<UserDetails> findByUsername(String username) {
-        return userRepository.findByEmail(username).flatMap(Mono::justOrEmpty);
+        return userRepository.findByEmail(username).mapNotNull(user ->
+                org.springframework.security.core.userdetails.User
+                        .withUsername(user.getUsername())
+                        .roles(user.getRole().toString()).build());
     }
 }

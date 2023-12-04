@@ -28,8 +28,9 @@ public class AuthController {
 
     @PostMapping("/register")
     public String register(Model model, User user) {
-        userService.saveUser(user);
-        model.addAttribute("user", user);
+        userService.saveUser(user).subscribe(u -> {
+            model.addAttribute("user", u);
+        });
         securityService.autoLogin(user.getEmail(), user.getPassword());
         return "redirect:/all";
     }
