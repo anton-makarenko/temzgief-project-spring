@@ -30,7 +30,7 @@ public class AuthController {
     public String register(Model model, User user) {
         userService.saveUser(user);
         model.addAttribute("user", user);
-        securityService.autoLogin(user.getEmail(), user.getPassword());
+        securityService.autoLogin(user.getEmail(), user.getPassword()).subscribe();
         return "redirect:/all";
     }
 

@@ -63,16 +63,19 @@ public class AdminController {
                         @RequestParam(name = "email", required = false) String email) {
         if (email != null) {
             model.addAttribute("totalPages", 1);
-            Optional<User> userOptional = userService.getUserOptionalByEmail(email);
-            model.addAttribute("users", userOptional.isPresent() ? Collections.singleton(userOptional.get()) : Collections.emptyList());
-            model.addAttribute("currentPage", 1);
+            userService.getUserOptionalByEmail(email).mapNotNull(u -> u).subscribe(u -> {
+                model.addAttribute("users", Collections.singleton(u));
+                model.addAttribute("currentPage", 1);
+            });
+
         }
         else {
-            Page<User> users = userService.getAllUsers(page - 1);
-            int totalPages = users.getTotalPages();
-            model.addAttribute("totalPages", totalPages);
-            model.addAttribute("users", users);
-            model.addAttribute("currentPage", page);
+            userService.getAllUsers(page - 1).subscribe(users -> {
+                int totalPages = users.getTotalPages();
+                model.addAttribute("totalPages", totalPages);
+                model.addAttribute("users", users);
+                model.addAttribute("currentPage", page);
+            });
         }
         return "users";
     }

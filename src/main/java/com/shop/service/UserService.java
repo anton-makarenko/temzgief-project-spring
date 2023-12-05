@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.Optional;
@@ -26,17 +27,12 @@ public class UserService implements ReactiveUserDetailsService {
         userRepository.save(user);
     }
 
-    @Override
-    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        return userRepository.findByEmail(s).orElseThrow(() -> new UsernameNotFoundException(Constants.WRONG_EMAIL_OR_PASSWORD));
+    public Mono<Page<User>> getAllUsers(int page) {
+        return Mono.just(userRepository.findAll(PageRequest.of(page, Constants.USERS_PER_PAGE)));
     }
 
-    public Page<User> getAllUsers(int page) {
-        return userRepository.findAll(PageRequest.of(page, Constants.USERS_PER_PAGE));
-    }
-
-    public Optional<User> getUserOptionalByEmail(String email) {
-        return userRepository.findByEmail(email);
+    public Mono<User> getUserOptionalByEmail(String email) {
+        return Mono.justOrEmpty(userRepository.findByEmail(email));
     }
 
     public void changeRole(long id, Role newRole) {
@@ -47,6 +43,6 @@ public class UserService implements ReactiveUserDetailsService {
 
     @Override
     public Mono<UserDetails> findByUsername(String username) {
-        return null;
+        return Mono.justOrEmpty(userRepository.findByEmail(username));
     }
 }
