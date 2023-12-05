@@ -4,9 +4,8 @@ import com.shop.entity.Category;
 import com.shop.entity.Clothes;
 import com.shop.entity.Product;
 import com.shop.enumeration.Color;
+import jakarta.persistence.criteria.Join;
 import org.springframework.data.jpa.domain.Specification;
-
-import javax.persistence.criteria.*;
 
 public final class ClothesSpecification {
     public static Specification<Clothes> hasColor(Color color) {

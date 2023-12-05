@@ -2,7 +2,7 @@ package com.shop.entity;
 
 import com.shop.enumeration.Size;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "clothes")
