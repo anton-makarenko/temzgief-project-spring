@@ -6,6 +6,8 @@ import com.shop.entity.Clothes;
 import com.shop.enumeration.Color;
 import com.shop.repository.CategoryRepository;
 import com.shop.repository.ClothesRepository;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -18,15 +20,10 @@ import java.util.List;
 import static com.shop.repository.specification.ClothesSpecification.*;
 
 @Service
+@RequiredArgsConstructor
 public class ProductService {
-    private ClothesRepository clothesRepository;
-    private CategoryRepository categoryRepository;
-
-    @Autowired
-    public ProductService(ClothesRepository clothesRepository, CategoryRepository categoryRepository) {
-        this.clothesRepository = clothesRepository;
-        this.categoryRepository = categoryRepository;
-    }
+    private final ClothesRepository clothesRepository;
+    private final CategoryRepository categoryRepository;
 
     public Page<Clothes> getClothesPage(String categoryName, String sortField, boolean descending, int page) {
         return descending

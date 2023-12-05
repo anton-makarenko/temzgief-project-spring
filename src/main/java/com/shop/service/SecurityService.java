@@ -1,6 +1,6 @@
 package com.shop.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -8,15 +8,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class SecurityService {
-    private AuthenticationManager authenticationManager;
-    private UserService userService;
-
-    @Autowired
-    public SecurityService(AuthenticationManager authenticationManager, UserService userService) {
-        this.authenticationManager = authenticationManager;
-        this.userService = userService;
-    }
+    private final AuthenticationManager authenticationManager;
+    private final UserService userService;
 
     public void autoLogin(String email, String password) {
         UserDetails userDetails = userService.loadUserByUsername(email);

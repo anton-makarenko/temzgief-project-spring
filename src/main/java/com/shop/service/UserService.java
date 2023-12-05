@@ -4,24 +4,23 @@ import com.shop.config.constant.Constants;
 import com.shop.entity.User;
 import com.shop.enumeration.Role;
 import com.shop.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.core.userdetails.ReactiveUserDetailsService;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Mono;
 
 import java.util.Optional;
 
 @Service
-public class UserService implements UserDetailsService {
-    private UserRepository userRepository;
-
-    @Autowired
-    public UserService(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
+@RequiredArgsConstructor
+public class UserService implements ReactiveUserDetailsService {
+    private final UserRepository userRepository;
 
     public void saveUser(User user) {
         userRepository.save(user);
@@ -44,5 +43,10 @@ public class UserService implements UserDetailsService {
         User user = userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("No such user"));
         user.setRole(newRole);
         userRepository.save(user);
+    }
+
+    @Override
+    public Mono<UserDetails> findByUsername(String username) {
+        return null;
     }
 }

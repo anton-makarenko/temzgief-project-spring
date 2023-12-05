@@ -8,6 +8,7 @@ import com.shop.enumeration.Status;
 import com.shop.repository.OrderRepository;
 import com.shop.repository.ClothesRepository;
 import com.shop.repository.ProductRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -21,17 +22,11 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class CartService {
-    private OrderRepository orderRepository;
-    private ClothesRepository clothesRepository;
-    private ProductRepository productRepository;
-
-    @Autowired
-    public CartService(OrderRepository orderRepository, ClothesRepository clothesRepository, ProductRepository productRepository) {
-        this.orderRepository = orderRepository;
-        this.clothesRepository = clothesRepository;
-        this.productRepository = productRepository;
-    }
+    private final OrderRepository orderRepository;
+    private final ClothesRepository clothesRepository;
+    private final ProductRepository productRepository;
 
     public void addProductToCart(long productId) {
         User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
